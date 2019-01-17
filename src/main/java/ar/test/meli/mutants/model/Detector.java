@@ -19,7 +19,14 @@ public class Detector {
 
     private void validateInputSequence(String[] dna) throws InvalidSequenceException {
         if (dna == null) {
-            throw new InvalidSequenceException("DNA sequence cannot be null.");
+            throw new InvalidSequenceException("DNA sequence cannot be null");
+        }
+        if (dna.length == 0) {
+            throw new InvalidSequenceException("DNA sequence cannot be empty");
+        }
+        if (dna.length < NitrogenousBase.MINIMUM_NB_REPETITION_TO_CHECK_MUTANT) {
+            throw new InvalidSequenceException(String.format("DNA sequence must have at least %d " +
+                    "nitrogenous bases per row", NitrogenousBase.MINIMUM_NB_REPETITION_TO_CHECK_MUTANT));
         }
     }
 

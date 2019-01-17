@@ -24,7 +24,7 @@ class SequenceTest {
 
         Throwable exception = assertThrows(InvalidSequenceException.class, sequence::toTable);
 
-        assertEquals("DNA sequence must have same ammount of rows and columms", exception.getMessage());
+        assertEquals("DNA sequence must have same amount of rows and columns", exception.getMessage());
     }
 
     @Test
@@ -34,7 +34,7 @@ class SequenceTest {
 
         Throwable exception = assertThrows(InvalidSequenceException.class, sequence::toTable);
 
-        assertEquals("DNA sequence must have same ammount of rows and columms", exception.getMessage());
+        assertEquals("DNA sequence must have same amount of rows and columns", exception.getMessage());
     }
 
     @Test
@@ -44,7 +44,7 @@ class SequenceTest {
 
         Throwable exception = assertThrows(InvalidSequenceException.class, sequence::toTable);
 
-        assertEquals("DNA sequence must have same ammount of rows and columms", exception.getMessage());
+        assertEquals("DNA sequence must have same amount of rows and columns", exception.getMessage());
     }
 
     @Test
@@ -54,7 +54,7 @@ class SequenceTest {
 
         Throwable exception = assertThrows(InvalidSequenceException.class, sequence::toTable);
 
-        assertEquals("DNA sequence must have same ammount of rows and columms", exception.getMessage());
+        assertEquals("DNA sequence must have same amount of rows and columns", exception.getMessage());
     }
 
     @Test

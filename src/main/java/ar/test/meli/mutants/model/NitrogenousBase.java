@@ -9,22 +9,22 @@ enum NitrogenousBaseType {
 class NitrogenousBase {
 
     //TODO get from configuration
-    private static int minRepetitionForMutant = 4;
+    public static final int MINIMUM_NB_REPETITION_TO_CHECK_MUTANT = 4;
 
-    private static String allNitrogenousBases = Arrays.stream(NitrogenousBaseType.values())
+    private static final String allNitrogenousBases = Arrays.stream(NitrogenousBaseType.values())
             .map(Enum::name)
             .reduce(String::concat)
             .orElse(null);
 
-    private static String validNitrogenousBasesRegex = String.format("[%s]+", allNitrogenousBases);
+    private static final String validNitrogenousBasesRegex = String.format("[%s]+", allNitrogenousBases);
 
     public static NitrogenousBaseType[][] getMutantKeySequences() {
-        NitrogenousBaseType[][] mutantKeySequences = new NitrogenousBaseType[minRepetitionForMutant][];
+        NitrogenousBaseType[][] mutantKeySequences = new NitrogenousBaseType[MINIMUM_NB_REPETITION_TO_CHECK_MUTANT][];
         NitrogenousBaseType[] values = NitrogenousBaseType.values();
         for (int i = 0, valuesLength = values.length; i < valuesLength; i++) {
             NitrogenousBaseType nitrogenousBaseType = values[i];
             NitrogenousBaseType[] mutantKeySequence = new NitrogenousBaseType[NitrogenousBaseType.values().length];
-            for (int j = 0; j < minRepetitionForMutant; j++) {
+            for (int j = 0; j < MINIMUM_NB_REPETITION_TO_CHECK_MUTANT; j++) {
                 mutantKeySequence[j] = nitrogenousBaseType;
             }
             mutantKeySequences[i] = mutantKeySequence;

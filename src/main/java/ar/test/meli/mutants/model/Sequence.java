@@ -80,7 +80,7 @@ class Sequence {
 
     private void validateDimensions(int rowCount, int columnCount) throws InvalidSequenceException {
         if (columnCount != rowCount){
-            throw new InvalidSequenceException("DNA sequence must have same ammount of rows and columms");
+            throw new InvalidSequenceException("DNA sequence must have same amount of rows and columns");
         }
     }
 

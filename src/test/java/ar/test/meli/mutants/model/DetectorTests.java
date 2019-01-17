@@ -2,10 +2,44 @@ package ar.test.meli.mutants.model;
 
 import ar.test.meli.mutants.model.exception.InvalidSequenceException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.aggregator.ArgumentsAccessor;
+import org.junit.jupiter.params.provider.CsvFileSource;
+
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class DetectorTests {
+
+    @Test
+    void isMutantWithNullDNAMustThrowException() {
+        Detector detector = new Detector();
+
+        Throwable exception = assertThrows(InvalidSequenceException.class, () -> detector.isMutant(null));
+
+        assertEquals("DNA sequence cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void isMutantWithEmptyDNAMustThrowException() {
+        Detector detector = new Detector();
+        String[] dna = new String[]{};
+
+        Throwable exception = assertThrows(InvalidSequenceException.class, () -> detector.isMutant(dna));
+
+        assertEquals("DNA sequence cannot be empty", exception.getMessage());
+    }
+
+    @Test
+    void isMutantWithInsufficientDNASampleMustThrowException() {
+        Detector detector = new Detector();
+        String[] dna = {"ATC", "GAT", "AAC"};
+
+        Throwable exception = assertThrows(InvalidSequenceException.class, () -> detector.isMutant(dna));
+
+        assertEquals("DNA sequence must have at least 4 nitrogenous bases per row", exception.getMessage());
+    }
 
     @Test
     void isMutantWithHumanDNAMustBeFalse() throws InvalidSequenceException {
@@ -208,6 +242,18 @@ class DetectorTests {
 //        T C T C T G C A G T G C C
 //        C A C T T A T C T C T G T
 //        A G A A T G C A C T T A C
+
+        assertTrue(actual);
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/large-sequence.csv")
+    void isMutantWithMutantDNAExtraLargeMustBeTrue(ArgumentsAccessor arguments) throws InvalidSequenceException {
+        Detector detector = new Detector();
+        Object[] argumentsArray = arguments.toArray();
+        String[] largeDna65x65 = Arrays.asList(argumentsArray).toArray(new String[argumentsArray.length]);
+
+        boolean actual = detector.isMutant(largeDna65x65);
 
         assertTrue(actual);
     }
