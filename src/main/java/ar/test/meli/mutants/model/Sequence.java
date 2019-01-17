@@ -40,26 +40,14 @@ class Sequence {
 
     public Character[][] leftToRightDiagonal() throws InvalidSequenceException {
         Character[][] table = this.toTable();
-        Character[][] temp = new Character[table.length + table.length - 1][table.length];
-        for (int i = 0; i < table.length - 1; i++) {
-            int j = 0;
-            int t = i;
-            while (t >= 0) {
-                temp[i][j] = table[t][j];
-                t--;
-                j++;
-            }
-        }
-        for (int j = 0; j < table.length; j++) {
-            int i = table.length - 1;
-            int t = j;
-            int k = table.length - 1;
-            int l = 0;
-            while (t < table.length) {
-                temp[k + j][l] = table[i][t];
-                t++;
-                i--;
-                l++;
+        Character[][] temp = new Character[(2 * table.length) - 1][table.length];
+        for (int row = 0; row < (2 + table.length) - 1; row++) {
+            int column = 0;
+            int originRow = (row < table.length - 1) ? row : table.length - 1;
+            while (originRow >= 0) {
+                temp[row][column] = table[originRow][column];
+                originRow--;
+                column++;
             }
         }
         return temp;
@@ -67,29 +55,16 @@ class Sequence {
 
     public Character[][] rightToLeftDiagonal() throws InvalidSequenceException {
         Character[][] table = this.toTable();
-        Character[][] temp = new Character[table.length + table.length - 1][table.length];
-
-        for (int i = 0; i < table.length; i++) {
-            int j = table.length - 1;
-            int t = i;
-            int k = 0;
-            while (t >= 0) {
-                temp[i][k] = table[t][j];
-                t--;
-                j--;
-                k++;
-            }
-        }
-        for (int j = 0; j < table.length; j++) {
-            int i = table.length - 1;
-            int t = i - j;
-            int k = table.length - 1;
-            int l = 0;
-            while (t >= 0) {
-                temp[k + j][l] = table[i][t];
-                t--;
-                i--;
-                l++;
+        Character[][] temp = new Character[(2 * table.length) - 1][table.length];
+        for (int row = 0; row < (2 * table.length) - 1; row++) {
+            int column = 0;
+            int originRow = (row <= table.length - 1) ? 0 : row - table.length + 1;
+            int originColumn = (row < table.length - 1) ? table.length - 1 - row : 0;
+            while (originColumn <= table.length - 1 && originRow <= table.length - 1) {
+                temp[row][column] = table[originRow][originColumn];
+                originColumn++;
+                originRow++;
+                column++;
             }
         }
         return temp;
