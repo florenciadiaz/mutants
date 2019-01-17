@@ -39,8 +39,8 @@ class SequenceTest {
 
     @Test
     void toTableWithMissingColumnMustThrowException()  {
-        String[] dnaMissingColumnAtRow3 = {"ATGCGA","CAGTGC","TTATG","AGAAGG","CCCCTA","TCACTG"};
-        Sequence sequence = new Sequence(dnaMissingColumnAtRow3);
+        String[] dnaMissingColumnAtRow2 = {"ATGCGA","CAGTGC","TTATG","AGAAGG","CCCCTA","TCACTG"};
+        Sequence sequence = new Sequence(dnaMissingColumnAtRow2);
 
         Throwable exception = assertThrows(InvalidSequenceException.class, sequence::toTable);
 
@@ -49,8 +49,8 @@ class SequenceTest {
 
     @Test
     void toTableWithExtraColumnMustThrowException()  {
-        String[] dnaExtraColumnAtRow3 = {"ATGCGA","CAGTGC","TTATGTT","AGAAGG","CCCCTA","TCACTG"};
-        Sequence sequence = new Sequence(dnaExtraColumnAtRow3);
+        String[] dnaExtraColumnAtRow2 = {"ATGCGA","CAGTGC","TTATGTT","AGAAGG","CCCCTA","TCACTG"};
+        Sequence sequence = new Sequence(dnaExtraColumnAtRow2);
 
         Throwable exception = assertThrows(InvalidSequenceException.class, sequence::toTable);
 
@@ -59,8 +59,28 @@ class SequenceTest {
 
     @Test
     void toTableWithInvalidNitrogenousBaseMustThrowException() {
-        String[] dnaWithXAtRow3 = {"ATGCGA","CAGTGC","TTXTGT","AGAAGG","CCCCTA","TCACTG"};
-        Sequence sequence = new Sequence(dnaWithXAtRow3);
+        String[] dnaWithXAtRow2 = {"ATGCGA","CAGTGC","TTXTGT","AGAAGG","CCCCTA","TCACTG"};
+        Sequence sequence = new Sequence(dnaWithXAtRow2);
+
+        Throwable exception = assertThrows(InvalidSequenceException.class, sequence::toTable);
+
+        assertEquals("DNA sequence must contain only valid nitrogenous bases", exception.getMessage());
+    }
+
+    @Test
+    void toTableWithInvalidCharacterAtNitrogenousBaseMustThrowException() {
+        String[] dnaWithInvalidCharAtRow2 = {"ATGCGA","CAGTGC","TT,TGT","AGAAGG","CCCCTA","TCACTG"};
+        Sequence sequence = new Sequence(dnaWithInvalidCharAtRow2);
+
+        Throwable exception = assertThrows(InvalidSequenceException.class, sequence::toTable);
+
+        assertEquals("DNA sequence must contain only valid nitrogenous bases", exception.getMessage());
+    }
+
+    @Test
+    void toTableWithNumberAtNitrogenousBaseMustThrowException() {
+        String[] dnaWithNumberAtRow2 = {"ATGCGA","CAGTGC","TT8TGT","AGAAGG","CCCCTA","TCACTG"};
+        Sequence sequence = new Sequence(dnaWithNumberAtRow2);
 
         Throwable exception = assertThrows(InvalidSequenceException.class, sequence::toTable);
 
