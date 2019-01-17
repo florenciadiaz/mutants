@@ -9,7 +9,7 @@ class NitrogenousBase {
     }
 
     //TODO get from configuration
-    public static int MinRepetitionForMutant = 4;
+    private static int minRepetitionForMutant = 4;
 
     private static String allNitrogenousBases = Arrays.stream(NitrogenousBaseType.values())
             .map(Enum::name)
@@ -19,7 +19,7 @@ class NitrogenousBase {
     private static String validNitrogenousBasesRegex = String.format("[%s]+", allNitrogenousBases);
 
     public static Character[][] getMutantKeySequences() {
-        Character[][] mutantKeySequences = new Character[MinRepetitionForMutant][];
+        Character[][] mutantKeySequences = new Character[minRepetitionForMutant][];
         NitrogenousBaseType[] values = NitrogenousBaseType.values();
         for (int i = 0, valuesLength = values.length; i < valuesLength; i++) {
             NitrogenousBaseType nitrogenousBaseType = values[i];
