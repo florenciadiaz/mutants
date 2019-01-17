@@ -2,11 +2,11 @@ package ar.test.meli.mutants.model;
 
 import java.util.Arrays;
 
-class NitrogenousBase {
+enum NitrogenousBaseType {
+    A, T, C, G
+}
 
-    enum NitrogenousBaseType {
-        A, T, C, G
-    }
+class NitrogenousBase {
 
     //TODO get from configuration
     private static int minRepetitionForMutant = 4;
@@ -18,14 +18,14 @@ class NitrogenousBase {
 
     private static String validNitrogenousBasesRegex = String.format("[%s]+", allNitrogenousBases);
 
-    public static Character[][] getMutantKeySequences() {
-        Character[][] mutantKeySequences = new Character[minRepetitionForMutant][];
+    public static NitrogenousBaseType[][] getMutantKeySequences() {
+        NitrogenousBaseType[][] mutantKeySequences = new NitrogenousBaseType[minRepetitionForMutant][];
         NitrogenousBaseType[] values = NitrogenousBaseType.values();
         for (int i = 0, valuesLength = values.length; i < valuesLength; i++) {
             NitrogenousBaseType nitrogenousBaseType = values[i];
-            Character[] mutantKeySequence = new Character[NitrogenousBaseType.values().length];
-            for (int j = 0; j < 4; j++) {
-                mutantKeySequence[j] = nitrogenousBaseType.name().charAt(0);
+            NitrogenousBaseType[] mutantKeySequence = new NitrogenousBaseType[NitrogenousBaseType.values().length];
+            for (int j = 0; j < minRepetitionForMutant; j++) {
+                mutantKeySequence[j] = nitrogenousBaseType;
             }
             mutantKeySequences[i] = mutantKeySequence;
         }

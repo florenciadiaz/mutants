@@ -10,7 +10,7 @@ public class Detector {
     boolean isMutant(String[] dna) throws InvalidSequenceException {
         validateInputSequence(dna);
         Sequence sequence = new Sequence(dna);
-        Character[][] mutantKeySequences = NitrogenousBase.getMutantKeySequences();
+        NitrogenousBaseType[][] mutantKeySequences = NitrogenousBase.getMutantKeySequences();
         return checkRows(sequence, mutantKeySequences)
                 || checkColumns(sequence, mutantKeySequences)
                 || checkLeftToRightDiagonal(sequence, mutantKeySequences)
@@ -23,31 +23,31 @@ public class Detector {
         }
     }
 
-    private boolean checkRows(Sequence sequence, Character[][] mutantKeySequences) throws InvalidSequenceException {
-        Character[][] table = sequence.toTable();
+    private boolean checkRows(Sequence sequence, NitrogenousBaseType[][] mutantKeySequences) throws InvalidSequenceException {
+        NitrogenousBaseType[][] table = sequence.toTable();
         return findSequences(table, mutantKeySequences);
     }
 
-    private boolean checkColumns(Sequence sequence, Character[][] mutantKeySequences) throws InvalidSequenceException {
-        Character[][] table = sequence.transpose();
+    private boolean checkColumns(Sequence sequence, NitrogenousBaseType[][] mutantKeySequences) throws InvalidSequenceException {
+        NitrogenousBaseType[][] table = sequence.transpose();
         return this.findSequences(table, mutantKeySequences);
     }
 
-    private boolean checkLeftToRightDiagonal(Sequence sequence, Character[][] mutantKeySequences)
+    private boolean checkLeftToRightDiagonal(Sequence sequence, NitrogenousBaseType[][] mutantKeySequences)
             throws InvalidSequenceException {
-        Character[][] table = sequence.leftToRightDiagonal();
+        NitrogenousBaseType[][] table = sequence.leftToRightDiagonal();
         return this.findSequences(table, mutantKeySequences);
     }
 
-    private boolean checkRightToLeftDiagonal(Sequence sequence, Character[][] mutantKeySequences)
+    private boolean checkRightToLeftDiagonal(Sequence sequence, NitrogenousBaseType[][] mutantKeySequences)
             throws InvalidSequenceException {
-        Character[][] table = sequence.rightToLeftDiagonal();
+        NitrogenousBaseType[][] table = sequence.rightToLeftDiagonal();
         return this.findSequences(table, mutantKeySequences);
     }
 
-    private boolean findSequences(Character[][] table, Character[][] mutantKeySequences) {
-        for (Character[] row : table) {
-            for (Character[] mutantKeySequence : mutantKeySequences) {
+    private boolean findSequences(NitrogenousBaseType[][] table, NitrogenousBaseType[][] mutantKeySequences) {
+        for (NitrogenousBaseType[] row : table) {
+            for (NitrogenousBaseType[] mutantKeySequence : mutantKeySequences) {
                 if (contains(row, mutantKeySequence)) {
                     return true;
                 }
@@ -56,7 +56,7 @@ public class Detector {
         return false;
     }
 
-    private boolean contains(Character[] sample, Character[] valuesToFind) {
+    private boolean contains(NitrogenousBaseType[] sample, NitrogenousBaseType[] valuesToFind) {
         return Collections.indexOfSubList(Arrays.asList(sample), Arrays.asList(valuesToFind)) >= 0;
     }
 }

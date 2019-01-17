@@ -5,31 +5,31 @@ import ar.test.meli.mutants.model.exception.InvalidSequenceException;
 class Sequence {
 
     private final String[] dna;
-    private Character[][] table;
+    private NitrogenousBaseType[][] table;
 
     Sequence(String[] dna) {
         this.dna = dna;
     }
 
-    Character[][] toTable() throws InvalidSequenceException {
+    NitrogenousBaseType[][] toTable() throws InvalidSequenceException {
         if (this.table == null) {
             int rowCount = this.dna.length;
-            Character[][] table = new Character[rowCount][];
+            NitrogenousBaseType[][] table = new NitrogenousBaseType[rowCount][];
             for (int i = 0; i < rowCount; i++) {
                 String row = this.dna[i];
                 validateNitrogenousBase(row);
                 int columnCount = row.length();
                 validateDimensions(rowCount, columnCount);
-                table[i] = getColumns(row, columnCount);
+                table[i] = buildColumns(row, columnCount);
             }
             this.table = table;
         }
         return this.table;
     }
 
-    public Character[][] transpose() throws InvalidSequenceException {
-        Character[][] table = this.toTable();
-        Character[][] temp = new Character[table.length][table.length];
+    public NitrogenousBaseType[][] transpose() throws InvalidSequenceException {
+        NitrogenousBaseType[][] table = this.toTable();
+        NitrogenousBaseType[][] temp = new NitrogenousBaseType[table.length][table.length];
         for (int i = 0; i < table.length; i++) {
             for (int j = 0; j < table[0].length; j++) {
                 temp[j][i] = table[i][j];
@@ -38,9 +38,9 @@ class Sequence {
         return temp;
     }
 
-    public Character[][] rightToLeftDiagonal() throws InvalidSequenceException {
-        Character[][] table = this.toTable();
-        Character[][] temp = new Character[(2 * table.length) - 1][table.length];
+    public NitrogenousBaseType[][] rightToLeftDiagonal() throws InvalidSequenceException {
+        NitrogenousBaseType[][] table = this.toTable();
+        NitrogenousBaseType[][] temp = new NitrogenousBaseType[(2 * table.length) - 1][table.length];
         for (int row = 0; row < (2 * table.length) - 1; row++) {
             int column = 0;
             int originRow = (row < table.length - 1) ? row : table.length - 1;
@@ -55,9 +55,9 @@ class Sequence {
         return temp;
     }
 
-    public Character[][] leftToRightDiagonal() throws InvalidSequenceException {
-        Character[][] table = this.toTable();
-        Character[][] temp = new Character[(2 * table.length) - 1][table.length];
+    public NitrogenousBaseType[][] leftToRightDiagonal() throws InvalidSequenceException {
+        NitrogenousBaseType[][] table = this.toTable();
+        NitrogenousBaseType[][] temp = new NitrogenousBaseType[(2 * table.length) - 1][table.length];
         for (int row = 0; row < (2 * table.length) - 1; row++) {
             int column = 0;
             int originRow = (row <= table.length - 1) ? 0 : row - table.length + 1;
@@ -84,10 +84,10 @@ class Sequence {
         }
     }
 
-    private Character[] getColumns(String row, int columnCount) {
-        Character[] columns = new Character[columnCount];
+    private NitrogenousBaseType[] buildColumns(String row, int columnCount) {
+        NitrogenousBaseType[] columns = new NitrogenousBaseType[columnCount];
         for (int j = 0; j < columnCount; j++) {
-            columns[j] = row.charAt(j);
+            columns[j] = NitrogenousBaseType.valueOf(String.valueOf(row.charAt(j)));
         }
         return columns;
     }
