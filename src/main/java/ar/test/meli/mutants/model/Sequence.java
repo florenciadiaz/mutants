@@ -38,22 +38,24 @@ class Sequence {
         return temp;
     }
 
-    public Character[][] leftToRightDiagonal() throws InvalidSequenceException {
+    public Character[][] rightToLeftDiagonal() throws InvalidSequenceException {
         Character[][] table = this.toTable();
         Character[][] temp = new Character[(2 * table.length) - 1][table.length];
-        for (int row = 0; row < (2 + table.length) - 1; row++) {
+        for (int row = 0; row < (2 * table.length) - 1; row++) {
             int column = 0;
             int originRow = (row < table.length - 1) ? row : table.length - 1;
-            while (originRow >= 0) {
-                temp[row][column] = table[originRow][column];
+            int originColumn = (row <= table.length - 1) ? 0 : row - table.length + 1;
+            while (originRow >= 0 && originColumn <= table.length - 1) {
+                temp[row][column] = table[originRow][originColumn];
                 originRow--;
+                originColumn++;
                 column++;
             }
         }
         return temp;
     }
 
-    public Character[][] rightToLeftDiagonal() throws InvalidSequenceException {
+    public Character[][] leftToRightDiagonal() throws InvalidSequenceException {
         Character[][] table = this.toTable();
         Character[][] temp = new Character[(2 * table.length) - 1][table.length];
         for (int row = 0; row < (2 * table.length) - 1; row++) {
