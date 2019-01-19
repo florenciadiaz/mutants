@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class DetectorTests {
 
     @Test
-    void isMutantWithNullDNAMustThrowException() {
+    void isMutant_givenNullDNA_mustThrowException() {
         Detector detector = new Detector();
 
         Throwable exception = assertThrows(InvalidSequenceException.class, () -> detector.isMutant(null));
@@ -22,7 +22,7 @@ class DetectorTests {
     }
 
     @Test
-    void isMutantWithEmptyDNAMustThrowException() {
+    void isMutant_givenEmptyDNA_mustThrowException() {
         Detector detector = new Detector();
         String[] dna = new String[]{};
 
@@ -32,7 +32,7 @@ class DetectorTests {
     }
 
     @Test
-    void isMutantWithInsufficientDNASampleMustThrowException() {
+    void isMutant__givenInsufficientDNASample_mustThrowException() {
         Detector detector = new Detector();
         String[] dna = {"ATC", "GAT", "AAC"};
 
@@ -42,7 +42,7 @@ class DetectorTests {
     }
 
     @Test
-    void isMutantWithHumanDNAMustBeFalse() throws InvalidSequenceException {
+    void isMutant__givenHumanDNA_mustBeFalse() throws InvalidSequenceException {
         Detector detector = new Detector();
         String[] dna = {"ATGCGA","CAGTGC","TTCTGT","AGAATG","CACCTA","TCACTG"};
 
@@ -59,7 +59,7 @@ class DetectorTests {
     }
 
     @Test
-    void isMutantWithMutantSequenceAtRowMustBeTrue() throws InvalidSequenceException {
+    void isMutant__givenMutantSequenceAtRow_mustBeTrue() throws InvalidSequenceException {
         Detector detector = new Detector();
         String[] dnaWithMutantAtRow4 = {"ATGCGA","CAGTGC","TTATGT","AGAAGG","CCCCTA","TCACTG"};
 
@@ -76,7 +76,7 @@ class DetectorTests {
     }
 
     @Test
-    void isMutantWithMutantSequenceAtColumnMustBeTrue() throws InvalidSequenceException {
+    void isMutant__givenMutantSequenceAtColumn_mustBeTrue() throws InvalidSequenceException {
         Detector detector = new Detector();
         String[] dnaWithMutantAtCol2 = {"ATTCGA","CACTGC","TTGTGT","AGGAGG","CAGCTA","TCGCTG"};
 
@@ -93,7 +93,7 @@ class DetectorTests {
     }
 
     @Test
-    void isMutantWithMutantSequenceAtLeftToRightDiagonalMustBeTrue() throws InvalidSequenceException {
+    void isMutant_givenMutantSequenceAtLeftToRightDiagonal_mustBeTrue() throws InvalidSequenceException {
         Detector detector = new Detector();
         String[] dnaWithMutantAtDiagonal5 = {"ATGCGA","CTGTGC","TGTTGT","AGATTG","CACCTA","TCACTG"};
 
@@ -110,7 +110,7 @@ class DetectorTests {
     }
 
     @Test
-    void isMutantWithMutantSequenceAtLeftToRightUpperDiagonalMustBeTrue() throws InvalidSequenceException {
+    void isMutant_givenMutantSequenceAtLeftToRightUpperDiagonal_mustBeTrue() throws InvalidSequenceException {
         Detector detector = new Detector();
         String[] dnaWithMutantAtDiagonal4 = {"ATGCGC","CCGTAC","TTAGGT","AGAAGG","CACCTG","TCACTG"};
 
@@ -127,7 +127,7 @@ class DetectorTests {
     }
 
     @Test
-    void isMutantWithMutantSequenceAtLeftToRightLowerDiagonalMustBeTrue() throws InvalidSequenceException {
+    void isMutant_givenMutantSequenceAtLeftToRightLowerDiagonal_mustBeTrue() throws InvalidSequenceException {
         Detector detector = new Detector();
         String[] dnaWithMutantAtDiagonal7 = {"ATGCGC","CCGTAC","CTACGT","ACAATG","CACCTA","TCACTG"};
 
@@ -144,7 +144,7 @@ class DetectorTests {
     }
 
     @Test
-    void isMutantWithMutantSequenceAtRightToLeftDiagonalMustBeTrue() throws InvalidSequenceException {
+    void isMutant_givenMutantSequenceAtRightToLeftDiagonal_mustBeTrue() throws InvalidSequenceException {
         Detector detector = new Detector();
         String[] dnaWithMutantAtDiagonal5 = {"ATGCGA","CAGTGC","TTCGGT","AGGATG","CGCCTA","TCACTG"};
 
@@ -161,7 +161,7 @@ class DetectorTests {
     }
 
     @Test
-    void isMutantWithMutantSequenceAtRightToLeftUpperDiagonalMustBeTrue() throws InvalidSequenceException {
+    void isMutant_givenMutantSequenceAtRightToLeftUpperDiagonal_mustBeTrue() throws InvalidSequenceException {
         Detector detector = new Detector();
         String[] dnaWithMutantAtDiagonal4 = {"ATGCGA","CAGCGC","TTCTGT","ACAATG","CACCTA","TCACTG"};
 
@@ -178,7 +178,7 @@ class DetectorTests {
     }
 
     @Test
-    void isMutantWithMutantSequenceAtRightToLeftLowerDiagonalMustBeTrue() throws InvalidSequenceException {
+    void isMutant_givenMutantSequenceAtRightToLeftLowerDiagonal_mustBeTrue() throws InvalidSequenceException {
         Detector detector = new Detector();
         String[] dnaWithMutantAtDiagonal7 = {"ATGCGA","CAGTGC","TTCTGT","AGAATG","CACTTA","TCTCTG"};
 
@@ -195,7 +195,7 @@ class DetectorTests {
     }
 
     @Test
-    void isMutantWithHumanDNALargeMustBeFalse() throws InvalidSequenceException {
+    void isMutant_givenHumanDNALarge_mustBeFalse() throws InvalidSequenceException {
         Detector detector = new Detector();
         String[] dnaWithMutantAtDiagonal7 = {"ATGCGAATGCGAA","CAGTGCTTCTGTT","AGAATGCACTTAC","TCTCTGCAGTGCC",
                 "TTCCGTAGAATGA","CACTTATCTCTGT","TTCTGGAGAATGA","CAGTGCATCTGTT","AGAATGCACTTAC","ATGCGAATGCGAA",
@@ -221,7 +221,7 @@ class DetectorTests {
     }
 
     @Test
-    void isMutantWithMutantSequenceAtRightToLeftLowerDiagonalLargeMustBeTrue() throws InvalidSequenceException {
+    void isMutant_givenMutantSequenceAtRightToLeftLowerDiagonalLarge_mustBeTrue() throws InvalidSequenceException {
         Detector detector = new Detector();
         String[] dnaWithMutantAtDiagonal7 = {"ATGCGAATGCGAA","CAGTGCTTCTGTT","AGAATGCACTTAC","TCTCTGCAGTGCC",
                 "TTCTGTAGAATGA","CACTTATCTCTGT","TTCTGTAGAATGA","CAGTGCATCTGTT","AGAATGCACTTAC","ATGCGAATGCGAA",
@@ -248,7 +248,7 @@ class DetectorTests {
 
     @ParameterizedTest
     @CsvFileSource(resources = "/large-sequence.csv")
-    void isMutantWithMutantDNAExtraLargeMustBeTrue(ArgumentsAccessor arguments) throws InvalidSequenceException {
+    void isMutant_givenMutantDNAExtraLarge_mustBeTrue(ArgumentsAccessor arguments) throws InvalidSequenceException {
         Detector detector = new Detector();
         Object[] argumentsArray = arguments.toArray();
         String[] largeDna65x65 = Arrays.asList(argumentsArray).toArray(new String[argumentsArray.length]);

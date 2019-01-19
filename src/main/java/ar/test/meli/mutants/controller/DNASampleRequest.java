@@ -4,11 +4,15 @@ class DNASampleRequest {
 
     private String[] dna;
 
-    public String[] getDna() {
-        return dna;
+    private DNASampleRequest() {
     }
 
-    public void setDna(String[] dna) {
+    DNASampleRequest(String[] dna) {
+        this();
         this.dna = dna;
+    }
+
+    public String[] getDna() {
+        return dna;
     }
 }

@@ -9,17 +9,20 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class MutantDetectorController {
 
+    static final String MUTANT = "Mutant";
+    static final String NOT_MUTANT = "Not-Mutant";
+
     @PostMapping(path = "/mutant")
     public ResponseEntity detectMutant(@RequestBody DNASampleRequest sample) {
         Detector detector = new Detector();
         boolean isMutant;
         try {
              isMutant = detector.isMutant(sample.getDna());
-        } catch (InvalidSequenceException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (InvalidSequenceException ex) {
+            return ResponseEntity.badRequest().body(MessageResponse.error(ex.getMessage()));
         }
         return isMutant
-                ? ResponseEntity.ok().build()
-                : ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+                ? ResponseEntity.ok().body(MessageResponse.success(MUTANT))
+                : ResponseEntity.status(HttpStatus.FORBIDDEN).body(MessageResponse.success(NOT_MUTANT));
     }
 }
