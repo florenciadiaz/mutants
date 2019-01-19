@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SequenceTest {
 
     @Test
-    void toTableWithValidDNAMustNotBeNull() throws InvalidSequenceException {
+    void toTable_givenValidDNA_mustNotBeNull() throws InvalidSequenceException {
         String[] dna6x6 = {"ATGCGA","CAGTGC","TTATGT","AGAAGG","CCCCTA","TCACTG"};
         Sequence sequence = new Sequence(dna6x6);
 
@@ -18,7 +18,7 @@ class SequenceTest {
     }
 
     @Test
-    void toTableWithLessRowsThanColumnsMustThrowException()  {
+    void toTable_givenLessRowsThanColumns_mustThrowException()  {
         String[] dna5x6 = {"ATGCGA","CAGTGC","TTATGT","AGAAGG","CCCCTA"};
         Sequence sequence = new Sequence(dna5x6);
 
@@ -28,7 +28,7 @@ class SequenceTest {
     }
 
     @Test
-    void toTableWithLessColumnsThanRowsMustThrowException()  {
+    void toTable_givenLessColumnsThanRows_mustThrowException()  {
         String[] dna6x5 = {"ATGCG","CAGTG","TTATG","AGAAG","CCCCT","TCACT"};
         Sequence sequence = new Sequence(dna6x5);
 
@@ -38,7 +38,7 @@ class SequenceTest {
     }
 
     @Test
-    void toTableWithMissingColumnMustThrowException()  {
+    void toTable_givenMissingColumn_mustThrowException()  {
         String[] dnaMissingColumnAtRow2 = {"ATGCGA","CAGTGC","TTATG","AGAAGG","CCCCTA","TCACTG"};
         Sequence sequence = new Sequence(dnaMissingColumnAtRow2);
 
@@ -48,7 +48,7 @@ class SequenceTest {
     }
 
     @Test
-    void toTableWithExtraColumnMustThrowException()  {
+    void toTable_givenExtraColumn_mustThrowException()  {
         String[] dnaExtraColumnAtRow2 = {"ATGCGA","CAGTGC","TTATGTT","AGAAGG","CCCCTA","TCACTG"};
         Sequence sequence = new Sequence(dnaExtraColumnAtRow2);
 
@@ -58,7 +58,7 @@ class SequenceTest {
     }
 
     @Test
-    void toTableWithInvalidNitrogenousBaseMustThrowException() {
+    void toTable_givenInvalidNitrogenousBase_mustThrowException() {
         String[] dnaWithXAtRow2 = {"ATGCGA","CAGTGC","TTXTGT","AGAAGG","CCCCTA","TCACTG"};
         Sequence sequence = new Sequence(dnaWithXAtRow2);
 
@@ -68,7 +68,7 @@ class SequenceTest {
     }
 
     @Test
-    void toTableWithInvalidCharacterAtNitrogenousBaseMustThrowException() {
+    void toTable_givenInvalidCharacterAtNitrogenousBase_mustThrowException() {
         String[] dnaWithInvalidCharAtRow2 = {"ATGCGA","CAGTGC","TT,TGT","AGAAGG","CCCCTA","TCACTG"};
         Sequence sequence = new Sequence(dnaWithInvalidCharAtRow2);
 
@@ -78,7 +78,7 @@ class SequenceTest {
     }
 
     @Test
-    void toTableWithNumberAtNitrogenousBaseMustThrowException() {
+    void toTable_givenNumberAtNitrogenousBase_mustThrowException() {
         String[] dnaWithNumberAtRow2 = {"ATGCGA","CAGTGC","TT8TGT","AGAAGG","CCCCTA","TCACTG"};
         Sequence sequence = new Sequence(dnaWithNumberAtRow2);
 

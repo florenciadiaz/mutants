@@ -7,7 +7,7 @@ import java.util.Collections;
 
 public class Detector {
 
-    boolean isMutant(String[] dna) throws InvalidSequenceException {
+    public boolean isMutant(String[] dna) throws InvalidSequenceException {
         validateInputSequence(dna);
         Sequence sequence = new Sequence(dna);
         NitrogenousBaseType[][] mutantKeySequences = NitrogenousBase.getMutantKeySequences();
