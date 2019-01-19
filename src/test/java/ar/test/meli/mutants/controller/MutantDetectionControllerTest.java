@@ -14,8 +14,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(MutantDetectorController.class)
-class MutantDetectorControllerTest {
+@WebMvcTest(MutantDetectionController.class)
+class MutantDetectionControllerTest {
 
     private static final String MUTANT_URL = "/mutant/";
 

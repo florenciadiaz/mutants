@@ -1,23 +1,31 @@
 package ar.test.meli.mutants.controller;
 
-import ar.test.meli.mutants.model.Detector;
 import ar.test.meli.mutants.model.exception.InvalidSequenceException;
+import ar.test.meli.mutants.service.MutantDetectionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class MutantDetectorController {
+public class MutantDetectionController {
 
-    static final String MUTANT = "Mutant";
-    static final String NOT_MUTANT = "Not-Mutant";
+    private static final String MUTANT = "Mutant";
+    private static final String NOT_MUTANT = "Not-Mutant";
+
+    @Autowired
+    private final MutantDetectionService mutantDetectionService;
+
+    public MutantDetectionController(MutantDetectionService mutantDetectionService) {
+        this.mutantDetectionService = mutantDetectionService;
+    }
 
     @PostMapping(path = "/mutant")
     public ResponseEntity detectMutant(@RequestBody DNASampleRequest sample) {
-        Detector detector = new Detector();
         boolean isMutant;
         try {
-             isMutant = detector.isMutant(sample.getDna());
+            String[] dna = sample.getDna();
+            isMutant = this.mutantDetectionService.verify(dna);
         } catch (InvalidSequenceException ex) {
             return ResponseEntity.badRequest().body(MessageResponse.error(ex.getMessage()));
         }
