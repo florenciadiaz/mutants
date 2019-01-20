@@ -14,9 +14,9 @@ import java.util.Arrays;
 @Transactional
 public class MutantDetectionService {
 
-    @Autowired
     private final VerifiedSequenceRepository verifiedSequences;
 
+    @Autowired
     public MutantDetectionService(VerifiedSequenceRepository verifiedSequences) {
         this.verifiedSequences = verifiedSequences;
     }

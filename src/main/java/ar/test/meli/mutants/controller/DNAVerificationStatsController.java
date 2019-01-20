@@ -11,15 +11,23 @@ import org.springframework.web.bind.annotation.RestController;
 public class DNAVerificationStatsController {
 
     private final DNAVerificationStatsService dnaVerificationStatsService;
+    private final ApplicationProperties properties;
 
     @Autowired
-    public DNAVerificationStatsController(DNAVerificationStatsService dnaVerificationStatsService) {
+    public DNAVerificationStatsController(DNAVerificationStatsService dnaVerificationStatsService,
+                                          ApplicationProperties properties) {
         this.dnaVerificationStatsService = dnaVerificationStatsService;
+        this.properties = properties;
     }
 
     @GetMapping(path = "/stats")
-    public ResponseEntity detectMutant() {
-        DNAVerificationStatsResponse dnaVerificationStatsResponse = dnaVerificationStatsService.calculateStats();
-        return ResponseEntity.ok().body(dnaVerificationStatsResponse);
+    public ResponseEntity getStats() {
+        Long mutantsCount = dnaVerificationStatsService.countMutants();
+        Long humansCount = dnaVerificationStatsService.countHumans();
+        float ratio = dnaVerificationStatsService.calculateRatio(mutantsCount, humansCount,
+                properties.getStats().getRatioDecimalPlaces());
+
+        DNAVerificationStatsResponse response = new DNAVerificationStatsResponse(mutantsCount, humansCount, ratio);
+        return ResponseEntity.ok().body(response);
     }
 }
