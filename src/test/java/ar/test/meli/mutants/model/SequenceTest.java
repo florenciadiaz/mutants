@@ -14,7 +14,7 @@ class SequenceTest {
         String[] dna6x6 = {"ATGCGA","CAGTGC","TTATGT","AGAAGG","CCCCTA","TCACTG"};
         Sequence sequence = new Sequence(dna6x6);
 
-        List<List<NitrogenousBaseType>> table = sequence.toTable();
+        NitrogenousBase table = sequence.toTable();
 
         assertNotNull(table);
     }

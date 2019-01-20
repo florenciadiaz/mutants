@@ -8,16 +8,16 @@ import java.util.List;
 class Sequence {
 
     private final String[] dna;
-    private List<List<NitrogenousBaseType>> table;
+    private NitrogenousBase table;
 
     Sequence(String[] dna) {
         this.dna = dna;
     }
 
-    public List<List<NitrogenousBaseType>> toTable() throws InvalidSequenceException {
+    public NitrogenousBase toTable() throws InvalidSequenceException {
         if (this.table == null) {
             int rowCount = this.dna.length;
-            List<List<NitrogenousBaseType>> table = new ArrayList<>(rowCount);
+            NitrogenousBase table = new NitrogenousBase(rowCount);
             for (String row : this.dna) {
                 validateNitrogenousBase(row);
                 int columnCount = row.length();
@@ -29,10 +29,10 @@ class Sequence {
         return this.table;
     }
 
-    public List<List<NitrogenousBaseType>> transpose() throws InvalidSequenceException {
-        List<List<NitrogenousBaseType>> table = this.toTable();
+    public NitrogenousBase transpose() throws InvalidSequenceException {
+        NitrogenousBase table = this.toTable();
         int tableSize = table.size();
-        List<List<NitrogenousBaseType>> transposed = new ArrayList<>(tableSize);
+        NitrogenousBase transposed = new NitrogenousBase(tableSize);
 
         for (int i = 0; i < tableSize; i++) {
             List<NitrogenousBaseType> column = new ArrayList<>();
@@ -44,11 +44,11 @@ class Sequence {
         return transposed;
     }
 
-    public List<List<NitrogenousBaseType>> rightToLeftDiagonal() throws InvalidSequenceException {
-        List<List<NitrogenousBaseType>> table = this.toTable();
+    public NitrogenousBase rightToLeftDiagonal() throws InvalidSequenceException {
+        NitrogenousBase table = this.toTable();
         int tableSize = table.size();
         int diagonalSize = (2 * tableSize) - 1;
-        List<List<NitrogenousBaseType>> temp = new ArrayList<>(diagonalSize);
+        NitrogenousBase temp = new NitrogenousBase(diagonalSize);
 
         for (int i = 0; i < diagonalSize; i++) {
             List<NitrogenousBaseType> row = new ArrayList<>();
@@ -64,11 +64,11 @@ class Sequence {
         return temp;
     }
 
-    public List<List<NitrogenousBaseType>> leftToRightDiagonal() throws InvalidSequenceException {
-        List<List<NitrogenousBaseType>> table = this.toTable();
+    public NitrogenousBase leftToRightDiagonal() throws InvalidSequenceException {
+        NitrogenousBase table = this.toTable();
         int tableSize = table.size();
         int diagonalSize = (2 * tableSize) - 1;
-        List<List<NitrogenousBaseType>> temp = new ArrayList<>(diagonalSize);
+        NitrogenousBase temp = new NitrogenousBase(diagonalSize);
 
         for (int i = 0; i < diagonalSize; i++) {
             List<NitrogenousBaseType> row = new ArrayList<>();

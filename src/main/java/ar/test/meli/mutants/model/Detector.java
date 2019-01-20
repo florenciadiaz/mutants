@@ -2,9 +2,6 @@ package ar.test.meli.mutants.model;
 
 import ar.test.meli.mutants.model.exception.InvalidSequenceException;
 
-import java.util.Collections;
-import java.util.List;
-
 public class Detector {
 
     private final int minNBRepetitionToVerifyMutant;
@@ -16,11 +13,10 @@ public class Detector {
     public boolean isMutant(String[] dna) throws InvalidSequenceException {
         validateInputSequence(dna);
         Sequence sequence = new Sequence(dna);
-        List<List<NitrogenousBaseType>> mutantKeySequences = NitrogenousBase.getMutantKeySequences(this.minNBRepetitionToVerifyMutant);
-        return checkRows(sequence, mutantKeySequences)
-                || checkColumns(sequence, mutantKeySequences)
-                || checkLeftToRightDiagonal(sequence, mutantKeySequences)
-                || checkRightToLeftDiagonal(sequence, mutantKeySequences);
+        return checkRows(sequence)
+                || checkColumns(sequence)
+                || checkLeftToRightDiagonal(sequence)
+                || checkRightToLeftDiagonal(sequence);
     }
 
     private void validateInputSequence(String[] dna) throws InvalidSequenceException {
@@ -36,43 +32,23 @@ public class Detector {
         }
     }
 
-    private boolean checkRows(Sequence sequence, List<List<NitrogenousBaseType>> mutantKeySequences)
-            throws InvalidSequenceException {
-        List<List<NitrogenousBaseType>> table = sequence.toTable();
-        return findSequences(table, mutantKeySequences);
+    private boolean checkRows(Sequence sequence) throws InvalidSequenceException {
+        NitrogenousBase table = sequence.toTable();
+        return table.isMutant(this.minNBRepetitionToVerifyMutant);
     }
 
-    private boolean checkColumns(Sequence sequence, List<List<NitrogenousBaseType>> mutantKeySequences)
-            throws InvalidSequenceException {
-        List<List<NitrogenousBaseType>> table = sequence.transpose();
-        return this.findSequences(table, mutantKeySequences);
+    private boolean checkColumns(Sequence sequence) throws InvalidSequenceException {
+        NitrogenousBase table = sequence.transpose();
+        return table.isMutant(this.minNBRepetitionToVerifyMutant);
     }
 
-    private boolean checkLeftToRightDiagonal(Sequence sequence, List<List<NitrogenousBaseType>> mutantKeySequences)
-            throws InvalidSequenceException {
-        List<List<NitrogenousBaseType>> table = sequence.leftToRightDiagonal();
-        return this.findSequences(table, mutantKeySequences);
+    private boolean checkLeftToRightDiagonal(Sequence sequence) throws InvalidSequenceException {
+        NitrogenousBase table = sequence.leftToRightDiagonal();
+        return table.isMutant(this.minNBRepetitionToVerifyMutant);
     }
 
-    private boolean checkRightToLeftDiagonal(Sequence sequence, List<List<NitrogenousBaseType>> mutantKeySequences)
-            throws InvalidSequenceException {
-        List<List<NitrogenousBaseType>> table = sequence.rightToLeftDiagonal();
-        return this.findSequences(table, mutantKeySequences);
-    }
-
-    private boolean findSequences(List<List<NitrogenousBaseType>> table,
-                                  List<List<NitrogenousBaseType>> mutantKeySequences) {
-        for (List<NitrogenousBaseType> row : table) {
-            for (List<NitrogenousBaseType> mutantKeySequence : mutantKeySequences) {
-                if (contains(row, mutantKeySequence)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    private boolean contains(List<NitrogenousBaseType> sample, List<NitrogenousBaseType> valuesToFind) {
-        return Collections.indexOfSubList(sample, valuesToFind) >= 0;
+    private boolean checkRightToLeftDiagonal(Sequence sequence) throws InvalidSequenceException {
+        NitrogenousBase table = sequence.rightToLeftDiagonal();
+        return table.isMutant(this.minNBRepetitionToVerifyMutant);
     }
 }
