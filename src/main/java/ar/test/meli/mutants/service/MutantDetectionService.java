@@ -21,8 +21,8 @@ public class MutantDetectionService {
         this.verifiedSequences = verifiedSequences;
     }
 
-    public boolean verify(String[] dna) throws InvalidSequenceException {
-        Detector detector = new Detector();
+    public boolean verify(String[] dna, int minNBRepetitionToVerifyMutant) throws InvalidSequenceException {
+        Detector detector = new Detector(minNBRepetitionToVerifyMutant);
         boolean isMutant = detector.isMutant(dna);
         persistVerifiedSequence(dna, isMutant);
         return isMutant;

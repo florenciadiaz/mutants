@@ -31,7 +31,7 @@ class MutantDetectionServiceTest {
         String[] mutantDna = {"ATGCGA","CAGTGC","TTCTGT","AGAATG","CCCCTA","TCACTG"};
         MutantDetectionService service = new MutantDetectionService(this.verifiedSequences);
 
-        boolean actual = service.verify(mutantDna);
+        boolean actual = service.verify(mutantDna, 4);
 
         assertTrue(actual);
         verify(this.verifiedSequences, times(1)).save(Mockito.any());
@@ -42,7 +42,7 @@ class MutantDetectionServiceTest {
         String[] humanDna = {"ATGCGA","CAGTGC","TTCTGT","AGAATG","CACCTA","TCACTG"};
         MutantDetectionService service = new MutantDetectionService(this.verifiedSequences);
 
-        boolean actual = service.verify(humanDna);
+        boolean actual = service.verify(humanDna, 4);
 
         assertFalse(actual);
         verify(this.verifiedSequences, times(1)).save(Mockito.any());
@@ -53,7 +53,8 @@ class MutantDetectionServiceTest {
         String[] invalidDNA = {"ATGCGA","CAGTGC","TXCTGT","AGAATG","CACCTA","TCACTG"};
         MutantDetectionService service = new MutantDetectionService(this.verifiedSequences);
 
-        Throwable exception = assertThrows(InvalidSequenceException.class, () -> service.verify(invalidDNA));
+        Throwable exception = assertThrows(InvalidSequenceException.class, () ->
+                service.verify(invalidDNA, 4));
 
         assertEquals("DNA sequence must contain only valid nitrogenous bases", exception.getMessage());
         verify(this.verifiedSequences, never()).save(Mockito.any());
@@ -68,7 +69,7 @@ class MutantDetectionServiceTest {
         when(this.verifiedSequences.findBySequence(sequence)).thenReturn(originalSequence);
         MutantDetectionService service = new MutantDetectionService(this.verifiedSequences);
 
-        boolean actual = service.verify(humanDna);
+        boolean actual = service.verify(humanDna, 4);
 
         assertFalse(actual);
         verify(this.verifiedSequences, times(1)).save(Mockito.any());

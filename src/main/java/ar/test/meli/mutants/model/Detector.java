@@ -2,18 +2,21 @@ package ar.test.meli.mutants.model;
 
 import ar.test.meli.mutants.model.exception.InvalidSequenceException;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class Detector {
 
+    private final int minNBRepetitionToVerifyMutant;
+
+    public Detector(int minNBRepetitionToVerifyMutant) {
+        this.minNBRepetitionToVerifyMutant = minNBRepetitionToVerifyMutant;
+    }
+
     public boolean isMutant(String[] dna) throws InvalidSequenceException {
         validateInputSequence(dna);
         Sequence sequence = new Sequence(dna);
-        List<List<NitrogenousBaseType>> mutantKeySequences = NitrogenousBase.getMutantKeySequences();
+        List<List<NitrogenousBaseType>> mutantKeySequences = NitrogenousBase.getMutantKeySequences(this.minNBRepetitionToVerifyMutant);
         return checkRows(sequence, mutantKeySequences)
                 || checkColumns(sequence, mutantKeySequences)
                 || checkLeftToRightDiagonal(sequence, mutantKeySequences)
@@ -27,9 +30,9 @@ public class Detector {
         if (dna.length == 0) {
             throw new InvalidSequenceException("DNA sequence cannot be empty");
         }
-        if (dna.length < NitrogenousBase.MINIMUM_NB_REPETITION_TO_CHECK_MUTANT) {
+        if (dna.length < minNBRepetitionToVerifyMutant) {
             throw new InvalidSequenceException(String.format("DNA sequence must have at least %d " +
-                    "nitrogenous bases per row", NitrogenousBase.MINIMUM_NB_REPETITION_TO_CHECK_MUTANT));
+                    "nitrogenous bases per row", minNBRepetitionToVerifyMutant));
         }
     }
 

@@ -31,9 +31,9 @@ public class ApplicationProperties {
         @NotBlank
         private String notMutantMessage;
 
-        @Min(0)
+        @Min(2)
         @Max(Integer.MAX_VALUE)
-        private int minNbToVerifyMutant;
+        private int minNbToVerifyMutant = 4;
 
         public String getMutantMessage() {
             return mutantMessage;
