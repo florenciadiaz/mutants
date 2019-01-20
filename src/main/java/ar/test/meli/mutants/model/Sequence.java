@@ -2,72 +2,84 @@ package ar.test.meli.mutants.model;
 
 import ar.test.meli.mutants.model.exception.InvalidSequenceException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 class Sequence {
 
     private final String[] dna;
-    private NitrogenousBaseType[][] table;
+    private List<List<NitrogenousBaseType>> table;
 
     Sequence(String[] dna) {
         this.dna = dna;
     }
 
-    NitrogenousBaseType[][] toTable() throws InvalidSequenceException {
+    public List<List<NitrogenousBaseType>> toTable() throws InvalidSequenceException {
         if (this.table == null) {
             int rowCount = this.dna.length;
-            NitrogenousBaseType[][] table = new NitrogenousBaseType[rowCount][];
-            for (int i = 0; i < rowCount; i++) {
-                String row = this.dna[i];
+            List<List<NitrogenousBaseType>> table = new ArrayList<>(rowCount);
+            for (String row : this.dna) {
                 validateNitrogenousBase(row);
                 int columnCount = row.length();
                 validateDimensions(rowCount, columnCount);
-                table[i] = buildColumns(row, columnCount);
+                table.add(buildColumns(row, columnCount));
             }
             this.table = table;
         }
         return this.table;
     }
 
-    public NitrogenousBaseType[][] transpose() throws InvalidSequenceException {
-        NitrogenousBaseType[][] table = this.toTable();
-        NitrogenousBaseType[][] temp = new NitrogenousBaseType[table.length][table.length];
-        for (int i = 0; i < table.length; i++) {
-            for (int j = 0; j < table[0].length; j++) {
-                temp[j][i] = table[i][j];
+    public List<List<NitrogenousBaseType>> transpose() throws InvalidSequenceException {
+        List<List<NitrogenousBaseType>> table = this.toTable();
+        int tableSize = table.size();
+        List<List<NitrogenousBaseType>> transposed = new ArrayList<>(tableSize);
+
+        for (int i = 0; i < tableSize; i++) {
+            List<NitrogenousBaseType> column = new ArrayList<>();
+            for (List<NitrogenousBaseType> row : table) {
+                column.add(row.get(i));
             }
+            transposed.add(column);
         }
-        return temp;
+        return transposed;
     }
 
-    public NitrogenousBaseType[][] rightToLeftDiagonal() throws InvalidSequenceException {
-        NitrogenousBaseType[][] table = this.toTable();
-        NitrogenousBaseType[][] temp = new NitrogenousBaseType[(2 * table.length) - 1][table.length];
-        for (int row = 0; row < (2 * table.length) - 1; row++) {
-            int column = 0;
-            int originRow = (row < table.length - 1) ? row : table.length - 1;
-            int originColumn = (row <= table.length - 1) ? 0 : row - table.length + 1;
-            while (originRow >= 0 && originColumn <= table.length - 1) {
-                temp[row][column] = table[originRow][originColumn];
+    public List<List<NitrogenousBaseType>> rightToLeftDiagonal() throws InvalidSequenceException {
+        List<List<NitrogenousBaseType>> table = this.toTable();
+        int tableSize = table.size();
+        int diagonalSize = (2 * tableSize) - 1;
+        List<List<NitrogenousBaseType>> temp = new ArrayList<>(diagonalSize);
+
+        for (int i = 0; i < diagonalSize; i++) {
+            List<NitrogenousBaseType> row = new ArrayList<>();
+            int originRow = (i < tableSize - 1) ? i : (tableSize - 1);
+            int originColumn = (i <= tableSize - 1) ? 0 : (i - tableSize + 1);
+            while (originRow >= 0 && originColumn <= tableSize - 1) {
+                row.add(table.get(originRow).get(originColumn));
                 originRow--;
                 originColumn++;
-                column++;
             }
+            temp.add(row);
         }
         return temp;
     }
 
-    public NitrogenousBaseType[][] leftToRightDiagonal() throws InvalidSequenceException {
-        NitrogenousBaseType[][] table = this.toTable();
-        NitrogenousBaseType[][] temp = new NitrogenousBaseType[(2 * table.length) - 1][table.length];
-        for (int row = 0; row < (2 * table.length) - 1; row++) {
-            int column = 0;
-            int originRow = (row <= table.length - 1) ? 0 : row - table.length + 1;
-            int originColumn = (row < table.length - 1) ? table.length - 1 - row : 0;
-            while (originColumn <= table.length - 1 && originRow <= table.length - 1) {
-                temp[row][column] = table[originRow][originColumn];
+    public List<List<NitrogenousBaseType>> leftToRightDiagonal() throws InvalidSequenceException {
+        List<List<NitrogenousBaseType>> table = this.toTable();
+        int tableSize = table.size();
+        int diagonalSize = (2 * tableSize) - 1;
+        List<List<NitrogenousBaseType>> temp = new ArrayList<>(diagonalSize);
+
+        for (int i = 0; i < diagonalSize; i++) {
+            List<NitrogenousBaseType> row = new ArrayList<>();
+            int originRow = (i <= tableSize - 1) ? 0 : (i - tableSize + 1);
+            int originColumn = (i < tableSize - 1) ? (tableSize - 1 - i) : 0;
+            while (originColumn <= tableSize - 1 && originRow <= tableSize - 1) {
+                row.add(table.get(originRow).get(originColumn));
                 originColumn++;
                 originRow++;
-                column++;
             }
+            temp.add(row);
         }
         return temp;
     }
@@ -84,10 +96,10 @@ class Sequence {
         }
     }
 
-    private NitrogenousBaseType[] buildColumns(String row, int columnCount) {
-        NitrogenousBaseType[] columns = new NitrogenousBaseType[columnCount];
+    private ArrayList<NitrogenousBaseType> buildColumns(String row, int columnCount) {
+        ArrayList<NitrogenousBaseType> columns = new ArrayList<>(columnCount);
         for (int j = 0; j < columnCount; j++) {
-            columns[j] = NitrogenousBaseType.valueOf(String.valueOf(row.charAt(j)));
+            columns.add(NitrogenousBaseType.valueOf(String.valueOf(row.charAt(j))));
         }
         return columns;
     }

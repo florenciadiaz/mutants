@@ -3,6 +3,8 @@ package ar.test.meli.mutants.model;
 import ar.test.meli.mutants.model.exception.InvalidSequenceException;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class SequenceTest {
@@ -12,7 +14,7 @@ class SequenceTest {
         String[] dna6x6 = {"ATGCGA","CAGTGC","TTATGT","AGAAGG","CCCCTA","TCACTG"};
         Sequence sequence = new Sequence(dna6x6);
 
-        NitrogenousBaseType[][] table = sequence.toTable();
+        List<List<NitrogenousBaseType>> table = sequence.toTable();
 
         assertNotNull(table);
     }

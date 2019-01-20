@@ -1,6 +1,8 @@
 package ar.test.meli.mutants.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 enum NitrogenousBaseType {
     A, T, C, G
@@ -18,16 +20,17 @@ class NitrogenousBase {
 
     private static final String validNitrogenousBasesRegex = String.format("[%s]+", allNitrogenousBases);
 
-    public static NitrogenousBaseType[][] getMutantKeySequences() {
-        NitrogenousBaseType[][] mutantKeySequences = new NitrogenousBaseType[MINIMUM_NB_REPETITION_TO_CHECK_MUTANT][];
-        NitrogenousBaseType[] values = NitrogenousBaseType.values();
-        for (int i = 0, valuesLength = values.length; i < valuesLength; i++) {
-            NitrogenousBaseType nitrogenousBaseType = values[i];
-            NitrogenousBaseType[] mutantKeySequence = new NitrogenousBaseType[NitrogenousBaseType.values().length];
+    public static List<List<NitrogenousBaseType>> getMutantKeySequences() {
+        List<NitrogenousBaseType> values = Arrays.asList(NitrogenousBaseType.values());
+        List<List<NitrogenousBaseType>> mutantKeySequences = new ArrayList<>(values.size());
+
+        for (NitrogenousBaseType nitrogenousBaseType:
+             values) {
+            List<NitrogenousBaseType> mutantKeySequence = new ArrayList<>(MINIMUM_NB_REPETITION_TO_CHECK_MUTANT);
             for (int j = 0; j < MINIMUM_NB_REPETITION_TO_CHECK_MUTANT; j++) {
-                mutantKeySequence[j] = nitrogenousBaseType;
+                mutantKeySequence.add(nitrogenousBaseType);
             }
-            mutantKeySequences[i] = mutantKeySequence;
+            mutantKeySequences.add(mutantKeySequence);
         }
         return mutantKeySequences;
     }
