@@ -3,8 +3,6 @@ package ar.test.meli.mutants.model;
 import ar.test.meli.mutants.model.exception.InvalidSequenceException;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class SequenceTest {

@@ -9,7 +9,7 @@ enum NitrogenousBaseType {
 
 class NitrogenousBase implements Iterable<List<NitrogenousBaseType>> {
 
-    private List<List<NitrogenousBaseType>> table;
+    private final List<List<NitrogenousBaseType>> table;
 
     private static final String allNitrogenousBases = Arrays.stream(NitrogenousBaseType.values())
             .map(Enum::name)
