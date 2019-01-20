@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 public interface VerifiedSequenceRepository extends CrudRepository<VerifiedSequence, Long> {
 
     VerifiedSequence findBySequence(String sequence);
+    Long countByIsMutantIsTrue();
+    Long countByIsMutantIsFalse();
 }

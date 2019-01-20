@@ -30,10 +30,10 @@ public class MutantDetectionService {
 
     private void persistVerifiedSequence(String[] dna, boolean isMutant) {
         String sequence = Arrays.toString(dna);
-//        VerifiedSequence verifiedSequence = this.verifiedSequences.findBySequence(sequence);
-//        if (verifiedSequence == null) {
-           VerifiedSequence verifiedSequence = new VerifiedSequence(sequence, isMutant);
-//        }
+        VerifiedSequence verifiedSequence = this.verifiedSequences.findBySequence(sequence);
+        if (verifiedSequence == null) {
+           verifiedSequence = new VerifiedSequence(sequence, isMutant);
+        }
         this.verifiedSequences.save(verifiedSequence);
     }
 }

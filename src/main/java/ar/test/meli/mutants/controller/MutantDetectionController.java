@@ -1,5 +1,6 @@
 package ar.test.meli.mutants.controller;
 
+import ar.test.meli.mutants.configuration.ApplicationProperties;
 import ar.test.meli.mutants.model.exception.InvalidSequenceException;
 import ar.test.meli.mutants.service.MutantDetectionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,14 +11,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class MutantDetectionController {
 
-    private static final String MUTANT = "Mutant";
-    private static final String NOT_MUTANT = "Not-Mutant";
+    private final MutantDetectionService mutantDetectionService;
+    private final ApplicationProperties properties;
 
     @Autowired
-    private final MutantDetectionService mutantDetectionService;
-
-    public MutantDetectionController(MutantDetectionService mutantDetectionService) {
+    public MutantDetectionController(MutantDetectionService mutantDetectionService, ApplicationProperties properties) {
         this.mutantDetectionService = mutantDetectionService;
+        this.properties = properties;
     }
 
     @PostMapping(path = "/mutant")
@@ -30,7 +30,8 @@ public class MutantDetectionController {
             return ResponseEntity.badRequest().body(MessageResponse.error(ex.getMessage()));
         }
         return isMutant
-                ? ResponseEntity.ok().body(MessageResponse.success(MUTANT))
-                : ResponseEntity.status(HttpStatus.FORBIDDEN).body(MessageResponse.success(NOT_MUTANT));
+                ? ResponseEntity.ok().body(MessageResponse.success(properties.getDetection().getMutantMessage()))
+                : ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(MessageResponse.success(properties.getDetection().getNotMutantMessage()));
     }
 }
