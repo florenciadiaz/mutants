@@ -50,7 +50,7 @@ class MutantDetectionControllerIntegrationTest {
     private MockMvc mvc;
 
     @Test
-    void detectMutant_givenMutantDNA_MustReturnOKStatus() throws Exception {
+    void detectMutant_givenMutantDNA_mustReturnOKStatus() throws Exception {
         String[] dna = {"ATGCGA","CAGTGC","TTCTGT","AGAATG","CCCCTA","TCACTG"};
         DNASampleRequest dnaSampleRequest = new DNASampleRequest(dna);
         MockHttpServletRequestBuilder requestBuilder = post(MUTANT_URL)
@@ -66,7 +66,7 @@ class MutantDetectionControllerIntegrationTest {
     }
 
     @Test
-    void detectMutant_givenHumanDNA_MustReturnForbiddenStatus() throws Exception {
+    void detectMutant_givenHumanDNA_mustReturnForbiddenStatus() throws Exception {
         String[] dna = {"ATGCGA","CAGTGC","TTCTGT","AGAATG","CACCTA","TCACTG"};
         DNASampleRequest dnaSampleRequest = new DNASampleRequest(dna);
         MockHttpServletRequestBuilder requestBuilder = post(MUTANT_URL)
@@ -82,7 +82,7 @@ class MutantDetectionControllerIntegrationTest {
     }
 
     @Test
-    void detectMutant_givenInvalidDNA_MustReturnBadRequestStatus() throws Exception {
+    void detectMutant_givenInvalidDNA_mustReturnBadRequestStatus() throws Exception {
         String[] dna = {"ATGCGA","CAGTGC","TXCTGT","AGAATG","CACCTA","TCACTG"};
         DNASampleRequest dnaSampleRequest = new DNASampleRequest(dna);
         MockHttpServletRequestBuilder requestBuilder = post(MUTANT_URL)

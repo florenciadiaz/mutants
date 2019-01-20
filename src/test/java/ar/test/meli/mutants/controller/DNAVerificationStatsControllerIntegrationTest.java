@@ -55,7 +55,7 @@ class DNAVerificationStatsControllerIntegrationTest {
     ApplicationContext context;
 
     @Test
-    void getStats_givenMutantsAndHumans_MustReturnOKStatus() throws Exception {
+    void getStats_givenMutantsAndHumans_mustReturnOKStatus() throws Exception {
         VerifiedSequenceRepository verifiedSequences = context.getBean(VerifiedSequenceRepository.class);
         Mockito.when(verifiedSequences.countByIsMutantIsTrue()).thenReturn(40L);
         Mockito.when(verifiedSequences.countByIsMutantIsFalse()).thenReturn(100L);

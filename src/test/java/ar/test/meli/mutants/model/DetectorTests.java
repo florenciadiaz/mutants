@@ -251,7 +251,7 @@ class DetectorTests {
     void isMutant_givenMutantDNAExtraLarge_mustBeTrue(ArgumentsAccessor arguments) throws InvalidSequenceException {
         Detector detector = new Detector();
         Object[] argumentsArray = arguments.toArray();
-        String[] largeDna65x65 = Arrays.asList(argumentsArray).toArray(new String[argumentsArray.length]);
+        String[] largeDna65x65 = (String[]) Arrays.asList(argumentsArray).toArray();
 
         boolean actual = detector.isMutant(largeDna65x65);
 
