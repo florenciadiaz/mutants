@@ -247,7 +247,7 @@ class DetectorTests {
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "/large-sequence.csv")
+    @CsvFileSource(resources = "/samples/unit/large-sequence.csv")
     void isMutant_givenMutantDNAExtraLarge_mustBeTrue(ArgumentsAccessor arguments) throws InvalidSequenceException {
         Detector detector = new Detector();
         Object[] argumentsArray = arguments.toArray();
