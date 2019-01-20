@@ -19,6 +19,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @ExceptionHandler(value = {BusinessException.class})
     protected ResponseEntity<Object> handleBusiness(BusinessException ex, WebRequest request) {
         String message = ex.getMessage();
+        logger.info(ex.getMessage(), ex);
         return handleExceptionInternal(ex, message, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 
