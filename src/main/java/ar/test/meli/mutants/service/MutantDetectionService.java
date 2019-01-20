@@ -34,6 +34,7 @@ public class MutantDetectionService {
         if (verifiedSequence == null) {
            verifiedSequence = new VerifiedSequence(sequence, isMutant);
         }
+        verifiedSequence.updateIsMutant(isMutant);
         this.verifiedSequences.save(verifiedSequence);
     }
 }

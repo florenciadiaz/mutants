@@ -10,6 +10,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 class DNAVerificationStatsServiceTest {
@@ -24,48 +27,48 @@ class DNAVerificationStatsServiceTest {
 
     @Test
     void countMutants_givenNoMutants_mustBeZero() {
-        Mockito.when(this.verifiedSequences.countByIsMutantIsTrue()).thenReturn(0L);
+        when(this.verifiedSequences.countByIsMutantIsTrue()).thenReturn(0L);
         DNAVerificationStatsService service = new DNAVerificationStatsService(this.verifiedSequences);
 
         Long actual = service.countMutants();
 
         assertThat(actual, is(0L));
-        Mockito.verify(this.verifiedSequences).countByIsMutantIsTrue();
+        verify(this.verifiedSequences, times(1)).countByIsMutantIsTrue();
     }
 
     @Test
     void countHumans_givenNoHumans_mustBeZero() {
-        Mockito.when(this.verifiedSequences.countByIsMutantIsFalse()).thenReturn(0L);
+        when(this.verifiedSequences.countByIsMutantIsFalse()).thenReturn(0L);
         DNAVerificationStatsService service = new DNAVerificationStatsService(this.verifiedSequences);
 
         Long actual = service.countHumans();
 
         assertThat(actual, is(0L));
-        Mockito.verify(this.verifiedSequences).countByIsMutantIsFalse();
+        verify(this.verifiedSequences, times(1)).countByIsMutantIsFalse();
     }
 
     @Test
     void countMutants_givenMutants_mustBeCount() {
         Long expected = 1432L;
-        Mockito.when(this.verifiedSequences.countByIsMutantIsTrue()).thenReturn(expected);
+        when(this.verifiedSequences.countByIsMutantIsTrue()).thenReturn(expected);
         DNAVerificationStatsService service = new DNAVerificationStatsService(this.verifiedSequences);
 
         Long actual = service.countMutants();
 
         assertThat(actual, is(expected));
-        Mockito.verify(this.verifiedSequences).countByIsMutantIsTrue();
+        verify(this.verifiedSequences, times(1)).countByIsMutantIsTrue();
     }
 
     @Test
     void countHumans_givenHumans_mustBeCount() {
         Long expected = 1432L;
-        Mockito.when(this.verifiedSequences.countByIsMutantIsFalse()).thenReturn(expected);
+        when(this.verifiedSequences.countByIsMutantIsFalse()).thenReturn(expected);
         DNAVerificationStatsService service = new DNAVerificationStatsService(this.verifiedSequences);
 
         Long actual = service.countHumans();
 
         assertThat(actual, is(expected));
-        Mockito.verify(this.verifiedSequences).countByIsMutantIsFalse();
+        verify(this.verifiedSequences, times(1)).countByIsMutantIsFalse();
     }
 
     @Test

@@ -27,4 +27,8 @@ public class VerifiedSequence {
     public boolean isMutant() {
         return isMutant;
     }
+
+    public void updateIsMutant(boolean isMutant) {
+        this.isMutant = isMutant;
+    }
 }

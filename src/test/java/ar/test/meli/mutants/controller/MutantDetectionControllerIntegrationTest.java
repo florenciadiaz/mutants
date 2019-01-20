@@ -78,7 +78,7 @@ class MutantDetectionControllerIntegrationTest {
                 .andExpect(jsonPath("$.status").exists())
                 .andExpect(jsonPath("$.status").value(MessageResponse.SUCCESS_STATUS))
                 .andExpect(jsonPath("$.message").exists())
-                .andExpect(jsonPath("$.message").isNotEmpty());;
+                .andExpect(jsonPath("$.message").isNotEmpty());
     }
 
     @Test
