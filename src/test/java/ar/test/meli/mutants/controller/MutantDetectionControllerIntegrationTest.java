@@ -1,12 +1,21 @@
 package ar.test.meli.mutants.controller;
 
+import ar.test.meli.mutants.configuration.ApplicationProperties;
+import ar.test.meli.mutants.persistence.VerifiedSequenceRepository;
+import ar.test.meli.mutants.service.MutantDetectionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
@@ -15,15 +24,31 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(MutantDetectionController.class)
-class MutantDetectionControllerTest {
+class MutantDetectionControllerIntegrationTest {
 
     private static final String MUTANT_URL = "/mutant/";
 
     private final ObjectMapper mapper = new ObjectMapper();
 
+    @TestConfiguration
+    static class MutantDetectionControllerTestContextConfiguration {
+
+        @MockBean
+        private VerifiedSequenceRepository verifiedSequenceRepository;
+
+        @Bean
+        public MutantDetectionService mutantDetectionService() {
+            return new MutantDetectionService(verifiedSequenceRepository);
+        }
+
+        @Bean
+        public ApplicationProperties properties() {
+            return new ApplicationProperties();
+        }
+    }
+
     @Autowired
     private MockMvc mvc;
-
 
     @Test
     void detectMutant_givenMutantDNA_MustReturnOKStatus() throws Exception {
