@@ -3,8 +3,6 @@ package ar.test.meli.mutants.controller;
 import ar.test.meli.mutants.configuration.ApplicationProperties;
 import ar.test.meli.mutants.persistence.VerifiedSequenceRepository;
 import ar.test.meli.mutants.service.DNAVerificationStatsService;
-import ar.test.meli.mutants.service.MutantDetectionService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -28,8 +26,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class DNAVerificationStatsControllerIntegrationTest {
 
     private static final String STATS_URL = "/stats/";
-
-    private final ObjectMapper mapper = new ObjectMapper();
 
     @TestConfiguration
     static class MutantDetectionControllerTestContextConfiguration {

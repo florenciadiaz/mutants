@@ -2,11 +2,11 @@ package ar.test.meli.mutants.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class DNAVerificationStatsResponse {
+class DNAVerificationStatsResponse {
 
-    private Long mutantDNACount;
-    private Long humanDNACount;
-    private Float ratio;
+    private final Long mutantDNACount;
+    private final Long humanDNACount;
+    private final Float ratio;
 
     public DNAVerificationStatsResponse(Long mutantDNACount, Long humanDNACount, Float ratio) {
         this.mutantDNACount = mutantDNACount;

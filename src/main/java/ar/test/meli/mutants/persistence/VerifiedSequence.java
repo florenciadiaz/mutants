@@ -5,10 +5,6 @@ import javax.persistence.*;
 @Entity
 public class VerifiedSequence {
 
-    @Id
-    @GeneratedValue
-    private Long id;
-
     @Column(columnDefinition = "varchar(max)", unique = true)
     private String sequence;
     private boolean isMutant;
@@ -24,7 +20,7 @@ public class VerifiedSequence {
         return sequence;
     }
 
-    public boolean isMutant() {
+    public boolean getIsMutant() {
         return isMutant;
     }
 

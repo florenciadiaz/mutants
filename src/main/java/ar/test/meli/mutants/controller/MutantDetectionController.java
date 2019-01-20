@@ -16,7 +16,7 @@ public class MutantDetectionController {
     private final MutantDetectionService mutantDetectionService;
     private final ApplicationProperties properties;
 
-    private Logger logger = LoggerFactory.getLogger(MutantDetectionController.class);
+    private final Logger logger = LoggerFactory.getLogger(MutantDetectionController.class);
 
     @Autowired
     public MutantDetectionController(MutantDetectionService mutantDetectionService, ApplicationProperties properties) {
