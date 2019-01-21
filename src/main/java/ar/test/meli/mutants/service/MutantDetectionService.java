@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Arrays;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Service
 @Transactional
@@ -21,15 +22,33 @@ public class MutantDetectionService {
         this.verifiedSequences = verifiedSequences;
     }
 
-    public boolean verify(String[] dna, int minNBRepetitionToVerifyMutant) throws InvalidSequenceException {
+    public boolean verify(String[] dna, int minNBRepetitionToVerifyMutant, int maxNbSequenceLength)
+            throws InvalidSequenceException {
+        String sequence = String.join(",", dna);
+        validateInputSequence(sequence, maxNbSequenceLength);
+
         Detector detector = new Detector(minNBRepetitionToVerifyMutant);
         boolean isMutant = detector.isMutant(dna);
-        persistVerifiedSequence(dna, isMutant);
+
+        persistVerifiedSequence(sequence, isMutant);
         return isMutant;
     }
 
-    private void persistVerifiedSequence(String[] dna, boolean isMutant) {
-        String sequence = Arrays.toString(dna);
+    private void validateInputSequence(String sequence, int maxNbSequenceLength) throws InvalidSequenceException {
+        if (sequence.length() > maxNbSequenceLength) {
+            throw new InvalidSequenceException(String.format("DNA sequence must have a maximum of %d " +
+                    "nitrogenous bases per row", calculateMaxNBPerRow(maxNbSequenceLength)));
+        }
+    }
+
+    private int calculateMaxNBPerRow(int maxNbSequenceLength) {
+        BigDecimal rowLength = BigDecimal.valueOf(Math.sqrt(maxNbSequenceLength));
+        BigDecimal value = BigDecimal.valueOf(rowLength.intValue());
+        int maxValue = value.pow(2).add(value.subtract(BigDecimal.valueOf(1))).intValue();
+        return value.subtract(BigDecimal.valueOf((maxValue > maxNbSequenceLength) ? 1 : 0)).intValue();
+    }
+
+    private void persistVerifiedSequence(String sequence, boolean isMutant) {
         VerifiedSequence verifiedSequence = this.verifiedSequences.findBySequence(sequence);
         if (verifiedSequence == null) {
            verifiedSequence = new VerifiedSequence(sequence, isMutant);

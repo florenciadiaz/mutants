@@ -31,7 +31,7 @@ class MutantDetectionServiceTest {
         String[] mutantDna = {"ATGCGA","CAGTGC","TTCTGT","AGAATG","CCCCTA","TCACTG"};
         MutantDetectionService service = new MutantDetectionService(this.verifiedSequences);
 
-        boolean actual = service.verify(mutantDna, 4);
+        boolean actual = service.verify(mutantDna, 4, 100);
 
         assertTrue(actual);
         verify(this.verifiedSequences, times(1)).save(Mockito.any());
@@ -42,7 +42,7 @@ class MutantDetectionServiceTest {
         String[] humanDna = {"ATGCGA","CAGTGC","TTCTGT","AGAATG","CACCTA","TCACTG"};
         MutantDetectionService service = new MutantDetectionService(this.verifiedSequences);
 
-        boolean actual = service.verify(humanDna, 4);
+        boolean actual = service.verify(humanDna, 4, 100);
 
         assertFalse(actual);
         verify(this.verifiedSequences, times(1)).save(Mockito.any());
@@ -54,7 +54,7 @@ class MutantDetectionServiceTest {
         MutantDetectionService service = new MutantDetectionService(this.verifiedSequences);
 
         Throwable exception = assertThrows(InvalidSequenceException.class, () ->
-                service.verify(invalidDNA, 4));
+                service.verify(invalidDNA, 4, 100));
 
         assertEquals("DNA sequence must contain only valid nitrogenous bases", exception.getMessage());
         verify(this.verifiedSequences, never()).save(Mockito.any());
@@ -69,11 +69,24 @@ class MutantDetectionServiceTest {
         when(this.verifiedSequences.findBySequence(sequence)).thenReturn(originalSequence);
         MutantDetectionService service = new MutantDetectionService(this.verifiedSequences);
 
-        boolean actual = service.verify(humanDna, 4);
+        boolean actual = service.verify(humanDna, 4, 100);
 
         assertFalse(actual);
         verify(this.verifiedSequences, times(1)).save(Mockito.any());
         verify(this.verifiedSequences, times(1)).findBySequence(sequence);
         verify(originalSequence, times(1)).updateIsMutant(false);
+    }
+
+    @Test
+    void verify_givenDNAExcedingMaxAcceptedLength_mustThrowException() throws InvalidSequenceException {
+        String[] mutantDna = {"ATGCGA","CAGTGC","TTCTGT","AGAATG","CCCCTA","TCACTG"};
+        MutantDetectionService service = new MutantDetectionService(this.verifiedSequences);
+        int maxNbSequenceLength = 40;
+
+        Throwable exception = assertThrows(InvalidSequenceException.class, () ->
+                service.verify(mutantDna, 4, maxNbSequenceLength));
+
+        assertEquals("DNA sequence must have a maximum of 5 nitrogenous bases per row", exception.getMessage());
+        verify(this.verifiedSequences, never()).save(Mockito.any());
     }
 }

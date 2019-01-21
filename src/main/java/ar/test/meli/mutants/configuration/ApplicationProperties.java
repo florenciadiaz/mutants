@@ -35,6 +35,10 @@ public class ApplicationProperties {
         @Max(Integer.MAX_VALUE)
         private int minNbToVerifyMutant = 4;
 
+        @Min(2)
+        @Max(Short.MAX_VALUE)
+        private int maxNbSequenceLength = Short.MAX_VALUE;
+
         public String getMutantMessage() {
             return mutantMessage;
         }
@@ -57,6 +61,14 @@ public class ApplicationProperties {
 
         public void setMinNbToVerifyMutant(int minNbToVerifyMutant) {
             this.minNbToVerifyMutant = minNbToVerifyMutant;
+        }
+
+        public int getMaxNbSequenceLength() {
+            return maxNbSequenceLength;
+        }
+
+        public void setMaxNbSequenceLength(int maxNbSequenceLength) {
+            this.maxNbSequenceLength = maxNbSequenceLength;
         }
     }
 

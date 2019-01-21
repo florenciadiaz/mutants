@@ -29,7 +29,8 @@ public class MutantDetectionController {
         boolean isMutant;
         try {
             String[] dna = sample.getDna();
-            isMutant = this.mutantDetectionService.verify(dna, properties.getDetection().getMinNbToVerifyMutant());
+            isMutant = this.mutantDetectionService.verify(dna, properties.getDetection().getMinNbToVerifyMutant(),
+                    properties.getDetection().getMaxNbSequenceLength());
         } catch (InvalidSequenceException ex) {
             logger.info(ex.getMessage(), ex);
             return ResponseEntity.badRequest().body(MessageResponse.error(ex.getMessage()));

@@ -9,7 +9,7 @@ public class VerifiedSequence {
     @GeneratedValue
     private Long id;
 
-    @Column(columnDefinition = "text", unique = true)
+    @Column(columnDefinition = "varchar(" + Short.MAX_VALUE + ")", unique = true)
     private String sequence;
     private boolean isMutant;
 
