@@ -31,10 +31,10 @@ Post as many samples as you want, considering the [restrictions](#restrictions).
 | /mutant/     | Detects if the DNA sequence in the JSON belongs to a mutant   |     POST     |
 | /stats/      | Returns a JSON with the statistics of the DNA checks          |     GET      |
 
-#### Samples
+### Samples
 This project contains some JSON files with [sample with DNA sequences](https://github.com/florenciadiaz/mutants/tree/develop/src/test/resources/samples/integration) to try on the [live demo](https://meli-mutants-test.herokuapp.com). 
 
-#### Restrictions
+### Restrictions
 Since this is a sample application, the [live demo](https://meli-mutants-test.herokuapp.com) only processes DNA sequences of 51x51 maximum.
 
 If you need bigger sequences (up to 180x180), you can download the source code and deploy locally or in a server with H2 database support, 
