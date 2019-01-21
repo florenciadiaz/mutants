@@ -1,4 +1,6 @@
 # Mutants
+[![version: 1.0-SNAPSHOT](https://img.shields.io/badge/version-1.0-orange.svg)](https://github.com/florenciadiaz/mutants/tree/master)
+[![license: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Test project for detecting mutant DNA, requested by **Mercadolibre**. 
 
@@ -32,7 +34,7 @@ Post as many samples as you want, considering the [restrictions](#restrictions).
 | /stats/      | Returns a JSON with the statistics of the DNA checks          |     GET      |
 
 ### Samples
-This project contains some JSON files with [sample with DNA sequences](https://github.com/florenciadiaz/mutants/tree/develop/src/test/resources/samples/integration) to try on the [live demo](https://meli-mutants-test.herokuapp.com). 
+This project contains some JSON files with [sample with DNA sequences](https://github.com/florenciadiaz/mutants/tree/master/src/test/resources/samples/integration) to try on the [live demo](https://meli-mutants-test.herokuapp.com). 
 
 ### Restrictions
 Since this is a sample application, the [live demo](https://meli-mutants-test.herokuapp.com) only processes DNA sequences of 51x51 maximum.

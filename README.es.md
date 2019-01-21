@@ -1,4 +1,6 @@
 # Mutantes
+[![version: 1.0-SNAPSHOT](https://img.shields.io/badge/version-1.0-orange.svg)](https://github.com/florenciadiaz/mutants/tree/master)
+[![license: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Proyecto de prueba para detectar ADN mutante, solicitado por **Mercadolibre**. 
 
@@ -32,7 +34,7 @@ Env&iacute;a tantos ejemplos como quieras, teniendo en cuenta las [restricciones
 | /stats/        | Devuelve un JSON con las estadísticas de las comprobaciones de ADN   |     GET      |
 
 ### Muestras
-Este proyecto contiene algunos archivos _JSON_ con [muestras de secuencias de ADN](https://github.com/florenciadiaz/mutants/tree/develop/src/test/resources/samples/integration) para probar en la [live demo](https://meli-mutants-test.herokuapp.com). 
+Este proyecto contiene algunos archivos _JSON_ con [muestras de secuencias de ADN](https://github.com/florenciadiaz/mutants/tree/master/src/test/resources/samples/integration) para probar en la [live demo](https://meli-mutants-test.herokuapp.com). 
 
 ### Restricciones
 Dado que se trata de una aplicación de prueba, la [demo en vivo](https://meli-mutants-test.herokuapp.com) sólo procesa secuencias de ADN de 51x51 como máximo.
