@@ -1,0 +1,24 @@
+{
+  "properties": [
+    {
+      "name": "app.detection.mutant-message",
+      "type": "java.lang.String",
+      "description": "Message to be sent if mutant detected."
+    },
+    {
+      "name": "app.detection.not-mutant-message",
+      "type": "java.lang.String",
+      "description": "Message to be sent if not-mutant detected."
+    },
+    {
+      "name": "app.stats.ratio-decimal-places",
+      "type": "java.lang.String",
+      "description": "Decimal places to be sent in ration calculation."
+    },
+    {
+      "name": "app.detection.min-nb-to-verify-mutant",
+      "type": "java.lang.String",
+      "description": "Minimum nitrogenous base sequence length to verify if it belongs to a mutant."
+    }
+  ]
+}

@@ -1,6 +1,8 @@
 buildscript {
 	ext {
 		springBootVersion = '2.1.2.RELEASE'
+		jUnitVersion = '5.2.0'
+		mockitoVersion = '2.18.3'
 	}
 	repositories {
 		mavenCentral()
@@ -24,5 +26,16 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
+	compile 'org.springframework.boot:spring-boot-starter-web'
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    compile("com.h2database:h2")
+	implementation 'org.springframework.boot:spring-boot-configuration-processor'
+	compile("org.postgresql:postgresql:9.4-1206-jdbc42")
+
+	testImplementation("org.junit.jupiter:junit-jupiter-api:${jUnitVersion}")
+	testCompile("org.junit.jupiter:junit-jupiter-params:${jUnitVersion}")
+	testRuntime("org.junit.jupiter:junit-jupiter-engine:${jUnitVersion}")
+	testCompile "org.mockito:mockito-core:2.+"
+	testCompile("org.mockito:mockito-junit-jupiter:${mockitoVersion}")
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
