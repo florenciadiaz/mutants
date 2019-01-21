@@ -32,7 +32,7 @@ public class MutantDetectionController {
             isMutant = this.mutantDetectionService.verify(dna, properties.getDetection().getMinNbToVerifyMutant(),
                     properties.getDetection().getMaxNbSequenceLength());
         } catch (InvalidSequenceException ex) {
-            logger.info(ex.getMessage(), ex);
+            logger.warn(ex.getMessage());
             return ResponseEntity.badRequest().body(MessageResponse.error(ex.getMessage()));
         }
         return isMutant
