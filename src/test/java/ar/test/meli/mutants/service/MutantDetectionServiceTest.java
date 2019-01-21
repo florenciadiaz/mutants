@@ -63,7 +63,7 @@ class MutantDetectionServiceTest {
     @Test
     void verify_givenDuplicatedDNA_mustOverwritePrevious() throws InvalidSequenceException {
         String[] humanDna = {"ATGCGA","CAGTGC","TTCTGT","AGAATG","CACCTA","TCACTG"};
-        String sequence = Arrays.toString(humanDna);
+        String sequence = "ATGCGA,CAGTGC,TTCTGT,AGAATG,CACCTA,TCACTG";
         VerifiedSequence originalSequence = mock(VerifiedSequence.class);
         when(originalSequence.getIsMutant()).thenReturn(true).thenCallRealMethod();
         when(this.verifiedSequences.findBySequence(sequence)).thenReturn(originalSequence);
