@@ -6,7 +6,7 @@ class MessageResponse {
     static final String ERROR_STATUS = "error";
 
     private final String status;
-    private String message;
+    private final String message;
 
     static MessageResponse success(String message) {
         return new MessageResponse(SUCCESS_STATUS, message);

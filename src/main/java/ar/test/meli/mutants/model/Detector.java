@@ -2,19 +2,21 @@ package ar.test.meli.mutants.model;
 
 import ar.test.meli.mutants.model.exception.InvalidSequenceException;
 
-import java.util.Arrays;
-import java.util.Collections;
-
 public class Detector {
+
+    private final int minNBRepetitionToVerifyMutant;
+
+    public Detector(int minNBRepetitionToVerifyMutant) {
+        this.minNBRepetitionToVerifyMutant = minNBRepetitionToVerifyMutant;
+    }
 
     public boolean isMutant(String[] dna) throws InvalidSequenceException {
         validateInputSequence(dna);
         Sequence sequence = new Sequence(dna);
-        NitrogenousBaseType[][] mutantKeySequences = NitrogenousBase.getMutantKeySequences();
-        return checkRows(sequence, mutantKeySequences)
-                || checkColumns(sequence, mutantKeySequences)
-                || checkLeftToRightDiagonal(sequence, mutantKeySequences)
-                || checkRightToLeftDiagonal(sequence, mutantKeySequences);
+        return checkRows(sequence)
+                || checkColumns(sequence)
+                || checkLeftToRightDiagonal(sequence)
+                || checkRightToLeftDiagonal(sequence);
     }
 
     private void validateInputSequence(String[] dna) throws InvalidSequenceException {
@@ -24,46 +26,29 @@ public class Detector {
         if (dna.length == 0) {
             throw new InvalidSequenceException("DNA sequence cannot be empty");
         }
-        if (dna.length < NitrogenousBase.MINIMUM_NB_REPETITION_TO_CHECK_MUTANT) {
+        if (dna.length < minNBRepetitionToVerifyMutant) {
             throw new InvalidSequenceException(String.format("DNA sequence must have at least %d " +
-                    "nitrogenous bases per row", NitrogenousBase.MINIMUM_NB_REPETITION_TO_CHECK_MUTANT));
+                    "nitrogenous bases per row", minNBRepetitionToVerifyMutant));
         }
     }
 
-    private boolean checkRows(Sequence sequence, NitrogenousBaseType[][] mutantKeySequences) throws InvalidSequenceException {
-        NitrogenousBaseType[][] table = sequence.toTable();
-        return findSequences(table, mutantKeySequences);
+    private boolean checkRows(Sequence sequence) throws InvalidSequenceException {
+        NitrogenousBase table = sequence.toTable();
+        return table.isMutant(this.minNBRepetitionToVerifyMutant);
     }
 
-    private boolean checkColumns(Sequence sequence, NitrogenousBaseType[][] mutantKeySequences) throws InvalidSequenceException {
-        NitrogenousBaseType[][] table = sequence.transpose();
-        return this.findSequences(table, mutantKeySequences);
+    private boolean checkColumns(Sequence sequence) throws InvalidSequenceException {
+        NitrogenousBase table = sequence.transpose();
+        return table.isMutant(this.minNBRepetitionToVerifyMutant);
     }
 
-    private boolean checkLeftToRightDiagonal(Sequence sequence, NitrogenousBaseType[][] mutantKeySequences)
-            throws InvalidSequenceException {
-        NitrogenousBaseType[][] table = sequence.leftToRightDiagonal();
-        return this.findSequences(table, mutantKeySequences);
+    private boolean checkLeftToRightDiagonal(Sequence sequence) throws InvalidSequenceException {
+        NitrogenousBase table = sequence.leftToRightDiagonal();
+        return table.isMutant(this.minNBRepetitionToVerifyMutant);
     }
 
-    private boolean checkRightToLeftDiagonal(Sequence sequence, NitrogenousBaseType[][] mutantKeySequences)
-            throws InvalidSequenceException {
-        NitrogenousBaseType[][] table = sequence.rightToLeftDiagonal();
-        return this.findSequences(table, mutantKeySequences);
-    }
-
-    private boolean findSequences(NitrogenousBaseType[][] table, NitrogenousBaseType[][] mutantKeySequences) {
-        for (NitrogenousBaseType[] row : table) {
-            for (NitrogenousBaseType[] mutantKeySequence : mutantKeySequences) {
-                if (contains(row, mutantKeySequence)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    private boolean contains(NitrogenousBaseType[] sample, NitrogenousBaseType[] valuesToFind) {
-        return Collections.indexOfSubList(Arrays.asList(sample), Arrays.asList(valuesToFind)) >= 0;
+    private boolean checkRightToLeftDiagonal(Sequence sequence) throws InvalidSequenceException {
+        NitrogenousBase table = sequence.rightToLeftDiagonal();
+        return table.isMutant(this.minNBRepetitionToVerifyMutant);
     }
 }
