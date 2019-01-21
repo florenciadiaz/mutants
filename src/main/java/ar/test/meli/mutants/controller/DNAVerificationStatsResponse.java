@@ -8,7 +8,7 @@ class DNAVerificationStatsResponse {
     private final Long humanDNACount;
     private final Float ratio;
 
-    public DNAVerificationStatsResponse(Long mutantDNACount, Long humanDNACount, Float ratio) {
+    DNAVerificationStatsResponse(Long mutantDNACount, Long humanDNACount, Float ratio) {
         this.mutantDNACount = mutantDNACount;
         this.humanDNACount = humanDNACount;
         this.ratio = ratio;
