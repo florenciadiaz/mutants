@@ -52,6 +52,8 @@ Para ejecutar el proyecto localmente, descarga el c&oacute;digo fuente de la &ua
  
 - ```gradlew bootRun``` para iniciar el servicio en el ambiente de desarrollo.
 
+- ```gradlew clean``` para limpiar la &uacute;ltima compilaci&oacute; y podder correr todas las tareas de _check_ nuevamente.
+
 *(\*) Luego de correr las pruebas, verifica el **Reporte de Resumen de las Pruebas** en la carpeta `/mutants/build/reports/tests/test` para m&aacute;s informaci&oacute;n.* 
 
 #

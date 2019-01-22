@@ -51,6 +51,8 @@ To run the project locally, download the latest version's source code, step on t
  
 - ```gradlew bootRun``` to start the service at the development environment.
 
+- ```gradlew clean``` to clear the latest build and be able to run all check tasks again.
+
 *(\*) After running the tests, check the **Tests Sumary Report** at the `/mutants/build/reports/tests/test` folder for more information.* 
 
 #
