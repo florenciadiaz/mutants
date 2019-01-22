@@ -1,5 +1,7 @@
 # Mutantes
 [![version: 1.1-SNAPSHOT](https://img.shields.io/badge/version-1.1-orange.svg)](https://github.com/florenciadiaz/mutants/tree/master)
+[![Build Status](https://travis-ci.com/florenciadiaz/mutants.svg?token=Ge3CQrgSPTiaZowMpjFM&branch=master)](https://travis-ci.com/florenciadiaz/mutants)
+[![codecov](https://codecov.io/gh/florenciadiaz/mutants/branch/master/graph/badge.svg?token=6HmSxqkGop)](https://codecov.io/gh/florenciadiaz/mutants)
 [![license: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Proyecto de prueba para detectar ADN mutante, solicitado por **Mercadolibre**. 
