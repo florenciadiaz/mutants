@@ -48,6 +48,11 @@ test {
     }
 }
 
+def profile = 'dev'
+bootRun {
+    args = ["--spring.profiles.active=" + profile]
+}
+
 jacocoTestReport {
     reports {
         xml.enabled true

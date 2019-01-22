@@ -41,9 +41,18 @@ Este proyecto contiene algunos archivos _JSON_ con [muestras de secuencias de AD
 ### Restricciones
 Dado que se trata de una aplicación de prueba, la [demo en vivo](https://meli-mutants-test.herokuapp.com) sólo procesa secuencias de ADN de 51x51 como máximo.
 
-Si necesitas secuencias m&aacute; grandes (de hasta 180x180), puedes descargar el c&oacute;digo fuente e instalarlo localmente o en un servidor con soporte para bases de datos H2, 
+Si necesitas secuencias m&aacute; grandes (de hasta 180x180), puedes descargar el c&oacute;digo fuente e [instalarlo localmente](#instrucciones) o en un servidor con soporte para bases de datos H2, 
 cambiando la clave ```app.detection.max-nb-sequence-length=180``` en el archivo `application-[env].properties`, donde _[env]_ corresponde al ambiente que utilices.
 
 
+### Instrucciones
+Para ejecutar el proyecto localmente, descarga el c&oacute;digo fuente de la &uacute;ltima versi&oacute;n, ubicate en la carpeta `/mutants` y ejecuta los siguientes comandos:
 
+- ```gradlew check``` para compilar, correr las pruebas y verificar que todo est&aacute; en orden (*).
+ 
+- ```gradlew bootRun``` para iniciar el servicio en el ambiente de desarrollo.
+
+*(\*) Luego de correr las pruebas, verifica el **Reporte de Resumen de las Pruebas** en la carpeta `/mutants/build/reports/tests/test` para m&aacute;s informaci&oacute;n.* 
+
+#
 Copyright &copy;2019 florenciadiaz. Licenciado bajo la _MIT License_, para m&aacute;s detalles ver `LICENSE.txt`.
