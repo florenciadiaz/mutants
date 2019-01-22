@@ -44,7 +44,7 @@ dependencies {
 
 test {
     beforeTest { descriptor ->
-        logger.lifecycle("Running test: $descriptor.className")
+        logger.lifecycle("Running test: $descriptor.className:  $descriptor.name")
     }
 }
 
