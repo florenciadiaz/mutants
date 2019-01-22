@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.Callable;
+
 @RestController
 public class DNAVerificationStatsController {
 
@@ -21,13 +23,13 @@ public class DNAVerificationStatsController {
     }
 
     @GetMapping(path = "/stats")
-    public ResponseEntity getStats() {
+    public Callable<ResponseEntity> getStats() {
         Long mutantsCount = dnaVerificationStatsService.countMutants();
         Long humansCount = dnaVerificationStatsService.countHumans();
         float ratio = dnaVerificationStatsService.calculateRatio(mutantsCount, humansCount,
                 properties.getStats().getRatioDecimalPlaces());
 
         DNAVerificationStatsResponse response = new DNAVerificationStatsResponse(mutantsCount, humansCount, ratio);
-        return ResponseEntity.ok().body(response);
+        return () -> ResponseEntity.ok().body(response);
     }
 }
