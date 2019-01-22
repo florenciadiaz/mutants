@@ -42,6 +42,12 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
+test {
+    beforeTest { descriptor ->
+        logger.lifecycle("Running test: $descriptor.className")
+    }
+}
+
 jacocoTestReport {
     reports {
         xml.enabled true
@@ -50,3 +56,7 @@ jacocoTestReport {
 }
 
 check.dependsOn jacocoTestReport
+
+test {
+    useJUnitPlatform()
+}
