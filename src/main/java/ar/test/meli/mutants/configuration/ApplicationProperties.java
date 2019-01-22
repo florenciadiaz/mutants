@@ -36,8 +36,8 @@ public class ApplicationProperties {
         private int minNbToVerifyMutant = 4;
 
         @Min(2)
-        @Max(Short.MAX_VALUE)
-        private int maxNbSequenceLength = Short.MAX_VALUE;
+        @Max(180)
+        private int maxNbSequenceLength = 180;
 
         public String getMutantMessage() {
             return mutantMessage;
