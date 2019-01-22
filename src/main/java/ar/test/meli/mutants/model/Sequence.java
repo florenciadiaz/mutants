@@ -8,20 +8,41 @@ import java.util.List;
 class Sequence {
 
     private final String[] dna;
+    private final int minNBRepetitionToVerifyMutant;
+
     private List<NitrogenousBase> table;
 
-    Sequence(String[] dna) {
+    private Sequence(String[] dna, int minNBRepetitionToVerifyMutant) {
         this.dna = dna;
+        this.minNBRepetitionToVerifyMutant = minNBRepetitionToVerifyMutant;
     }
 
-    public boolean hasMutantDNA(int minNBRepetitionToVerifyMutant) throws InvalidSequenceException {
-        return this.checkRowsAndBuildNitrogenousBaseIfNotMutant(minNBRepetitionToVerifyMutant)
-                || this.checkColumns(minNBRepetitionToVerifyMutant)
-                || this.checkLeftToRightDiagonal(minNBRepetitionToVerifyMutant)
-                || this.checkRightToLeftDiagonal(minNBRepetitionToVerifyMutant);
+    public static Sequence of(String[] dna, int minNBRepetitionToVerifyMutant) throws InvalidSequenceException {
+        validateInputSequence(dna, minNBRepetitionToVerifyMutant);
+        return new Sequence(dna, minNBRepetitionToVerifyMutant);
     }
 
-    private boolean checkRowsAndBuildNitrogenousBaseIfNotMutant(int minNBRepetitionToVerifyMutant)
+    private static void validateInputSequence(String[] dna, int minNBRepetitionToVerifyMutant) throws InvalidSequenceException {
+        if (dna == null) {
+            throw new InvalidSequenceException("DNA sequence cannot be null");
+        }
+        if (dna.length == 0) {
+            throw new InvalidSequenceException("DNA sequence cannot be empty");
+        }
+        if (dna.length < minNBRepetitionToVerifyMutant) {
+            throw new InvalidSequenceException(String.format("DNA sequence must have at least %d " +
+                    "nitrogenous bases per row", minNBRepetitionToVerifyMutant));
+        }
+    }
+
+    public boolean hasMutantDNA() throws InvalidSequenceException {
+        return this.checkRowsAndBuildNitrogenousBaseIfNotMutant()
+                || this.checkColumns()
+                || this.checkLeftToRightDiagonal()
+                || this.checkRightToLeftDiagonal();
+    }
+
+    private boolean checkRowsAndBuildNitrogenousBaseIfNotMutant()
             throws InvalidSequenceException {
         if (this.table == null) {
             int rowCount = this.dna.length;
@@ -30,7 +51,8 @@ class Sequence {
                 validateNitrogenousBase(row);
                 int columnCount = row.length();
                 validateDimensions(rowCount, columnCount);
-                NitrogenousBase nitrogenousBaseRow = NitrogenousBase.of(row, columnCount, minNBRepetitionToVerifyMutant);
+                NitrogenousBase nitrogenousBaseRow = NitrogenousBase.of(row, columnCount,
+                        this.minNBRepetitionToVerifyMutant);
                 if (nitrogenousBaseRow.isMutant()) {
                     return true;
                 }
@@ -52,7 +74,7 @@ class Sequence {
         }
     }
 
-    private boolean checkColumns(int minNBRepetitionToVerifyMutant) {
+    private boolean checkColumns() {
         int tableSize = this.table.size();
         for (int columnIndex = 0; columnIndex < tableSize; columnIndex++) {
             int repetitionCount = 1;
@@ -61,16 +83,16 @@ class Sequence {
                 if (rowIndex + 1 < tableSize) {
                     NitrogenousBaseType nextValue = table.get(rowIndex + 1).get(columnIndex);
                     repetitionCount = (actualValue == nextValue) ? (repetitionCount + 1) : 1;
-                }
-                if (repetitionCount == minNBRepetitionToVerifyMutant) {
-                    return true;
+                    if (repetitionCount == this.minNBRepetitionToVerifyMutant) {
+                        return true;
+                    }
                 }
             }
         }
         return false;
     }
 
-    private boolean checkRightToLeftDiagonal(int minNBRepetitionToVerifyMutant) {
+    private boolean checkRightToLeftDiagonal() {
         int tableSize = table.size();
         int diagonalSize = (2 * tableSize) - 1;
         for (int i = 0; i < diagonalSize; i++) {
@@ -84,16 +106,16 @@ class Sequence {
                 if (rowIndex >= 0 && columnIndex <= tableSize - 1) {
                     NitrogenousBaseType nextValue = this.table.get(rowIndex).get(columnIndex);
                     repetitionCount = (actualValue == nextValue) ? (repetitionCount + 1) : 1;
-                }
-                if (repetitionCount == minNBRepetitionToVerifyMutant) {
-                    return true;
+                    if (repetitionCount == this.minNBRepetitionToVerifyMutant) {
+                        return true;
+                    }
                 }
             }
         }
         return false;
     }
 
-    private boolean checkLeftToRightDiagonal(int minNBRepetitionToVerifyMutant) {
+    private boolean checkLeftToRightDiagonal() {
         int tableSize = this.table.size();
         int diagonalSize = (2 * tableSize) - 1;
         for (int i = 0; i < diagonalSize; i++) {
@@ -107,9 +129,9 @@ class Sequence {
                 if (columnIndex <= tableSize - 1 && rowIndex <= tableSize - 1) {
                     NitrogenousBaseType nextValue = this.table.get(rowIndex).get(columnIndex);
                     repetitionCount = (actualValue == nextValue) ? (repetitionCount + 1) : 1;
-                }
-                if (repetitionCount == minNBRepetitionToVerifyMutant) {
-                    return true;
+                    if (repetitionCount == this.minNBRepetitionToVerifyMutant) {
+                        return true;
+                    }
                 }
             }
         }

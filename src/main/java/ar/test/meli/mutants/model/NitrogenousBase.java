@@ -40,9 +40,9 @@ class NitrogenousBase {
             if (i + 1 < columnCount) {
                 NitrogenousBaseType nextValue = NitrogenousBaseType.of(row.charAt(i + 1));
                 repetitionCount = (actualValue == nextValue) ? (repetitionCount + 1) : 1;
-            }
-            if (repetitionCount == minNBRepetitionToVerifyMutant) {
-                nitrogenousBase.isMutant = true;
+                if (repetitionCount == minNBRepetitionToVerifyMutant) {
+                    nitrogenousBase.isMutant = true;
+                }
             }
             nitrogenousBase.add(actualValue);
         }
