@@ -1,5 +1,5 @@
 # Mutantes
-[![version: 1.0-SNAPSHOT](https://img.shields.io/badge/version-1.0-orange.svg)](https://github.com/florenciadiaz/mutants/tree/master)
+[![version: 1.1-SNAPSHOT](https://img.shields.io/badge/version-1.1-orange.svg)](https://github.com/florenciadiaz/mutants/tree/master)
 [![license: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Proyecto de prueba para detectar ADN mutante, solicitado por **Mercadolibre**. 
