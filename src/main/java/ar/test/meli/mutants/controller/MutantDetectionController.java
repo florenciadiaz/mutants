@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.concurrent.Callable;
+
 @RestController
 public class MutantDetectionController {
 
@@ -25,7 +27,7 @@ public class MutantDetectionController {
     }
 
     @PostMapping(path = "/mutant")
-    public ResponseEntity detectMutant(@RequestBody DNASampleRequest sample) {
+    public Callable<ResponseEntity> detectMutant(@RequestBody DNASampleRequest sample) {
         boolean isMutant;
         try {
             String[] dna = sample.getDna();
@@ -33,11 +35,11 @@ public class MutantDetectionController {
                     properties.getDetection().getMaxNbSequenceLength());
         } catch (InvalidSequenceException ex) {
             logger.warn(ex.getMessage());
-            return ResponseEntity.badRequest().body(MessageResponse.error(ex.getMessage()));
+            return () -> ResponseEntity.badRequest().body(MessageResponse.error(ex.getMessage()));
         }
         return isMutant
-                ? ResponseEntity.ok().body(MessageResponse.success(properties.getDetection().getMutantMessage()))
-                : ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body(MessageResponse.success(properties.getDetection().getNotMutantMessage()));
+                ? () -> ResponseEntity.ok().body(MessageResponse.success(properties.getDetection().getMutantMessage()))
+                : () -> ResponseEntity.status(HttpStatus.FORBIDDEN)
+                            .body(MessageResponse.success(properties.getDetection().getNotMutantMessage()));
     }
 }
