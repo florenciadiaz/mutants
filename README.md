@@ -41,7 +41,19 @@ This project contains some JSON files with [sample with DNA sequences](https://g
 ### Restrictions
 Since this is a sample application, the [live demo](https://meli-mutants-test.herokuapp.com) only processes DNA sequences of 51x51 maximum.
 
-If you need bigger sequences (up to 180x180), you can download the source code and deploy locally or in a server with H2 database support, 
+If you need bigger sequences (up to 180x180), you can download the source code and [deploy locally](#instructions) or in a server with H2 database support, 
 changing the key ```app.detection.max-nb-sequence-length=180``` on the `application-[env].properties` file, where _[env]_ is related to the environment used. 
 
+### Instructions
+To run the project locally, download the latest version's source code, step on the `/mutants` folder and execute the following commands:
+
+- ```gradlew check``` to compile, run the tests and verify everything is OK (*).
+ 
+- ```gradlew bootRun``` to start the service at the development environment.
+
+- ```gradlew clean``` to clear the latest build and be able to run all check tasks again.
+
+*(\*) After running the tests, check the **Tests Sumary Report** at the `/mutants/build/reports/tests/test` folder for more information.* 
+
+#
 Copyright &copy;2019 florenciadiaz. Licensed under the MIT License, for details see `LICENSE.txt`.
