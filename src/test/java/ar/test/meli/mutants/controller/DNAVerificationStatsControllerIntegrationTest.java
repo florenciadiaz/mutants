@@ -13,11 +13,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -58,7 +59,11 @@ class DNAVerificationStatsControllerIntegrationTest {
         Mockito.when(verifiedSequences.countByIsMutantIsFalse()).thenReturn(100L);
         MockHttpServletRequestBuilder requestBuilder = get(STATS_URL);
 
-        mvc.perform(requestBuilder)
+        MvcResult resultActions = mvc.perform(requestBuilder)
+                .andExpect(request().asyncStarted())
+                .andReturn();
+
+        mvc.perform(asyncDispatch(resultActions))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.count_mutant_dna").exists())
                 .andExpect(jsonPath("$.count_mutant_dna").value(40L))

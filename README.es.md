@@ -1,5 +1,7 @@
 # Mutantes
-[![version: 1.0-SNAPSHOT](https://img.shields.io/badge/version-1.0-orange.svg)](https://github.com/florenciadiaz/mutants/tree/master)
+[![version: 1.1-SNAPSHOT](https://img.shields.io/badge/version-1.1-orange.svg)](https://github.com/florenciadiaz/mutants/tree/master)
+[![Build Status](https://travis-ci.com/florenciadiaz/mutants.svg?token=Ge3CQrgSPTiaZowMpjFM&branch=master)](https://travis-ci.com/florenciadiaz/mutants)
+[![codecov](https://codecov.io/gh/florenciadiaz/mutants/branch/master/graph/badge.svg?token=6HmSxqkGop)](https://codecov.io/gh/florenciadiaz/mutants)
 [![license: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Proyecto de prueba para detectar ADN mutante, solicitado por **Mercadolibre**. 
@@ -39,9 +41,20 @@ Este proyecto contiene algunos archivos _JSON_ con [muestras de secuencias de AD
 ### Restricciones
 Dado que se trata de una aplicación de prueba, la [demo en vivo](https://meli-mutants-test.herokuapp.com) sólo procesa secuencias de ADN de 51x51 como máximo.
 
-Si necesitas secuencias m&aacute; grandes (de hasta 180x180), puedes descargar el c&oacute;digo fuente e instalarlo localmente o en un servidor con soporte para bases de datos H2, 
-cambiando la clave ```app.detection.max-nb-sequence-length=32767``` en el archivo `application-[env].properties`, donde _[env]_ corresponde al ambiente que utilices.
+Si necesitas secuencias m&aacute; grandes (de hasta 180x180), puedes descargar el c&oacute;digo fuente e [instalarlo localmente](#instrucciones) o en un servidor con soporte para bases de datos H2, 
+cambiando la clave ```app.detection.max-nb-sequence-length=180``` en el archivo `application-[env].properties`, donde _[env]_ corresponde al ambiente que utilices.
 
 
+### Instrucciones
+Para ejecutar el proyecto localmente, descarga el c&oacute;digo fuente de la &uacute;ltima versi&oacute;n, ubicate en la carpeta `/mutants` y ejecuta los siguientes comandos:
 
+- ```gradlew check``` para compilar, correr las pruebas y verificar que todo est&aacute; en orden (*).
+ 
+- ```gradlew bootRun``` para iniciar el servicio en el ambiente de desarrollo.
+
+- ```gradlew clean``` para limpiar la &uacute;ltima compilaci&oacute; y podder correr todas las tareas de _check_ nuevamente.
+
+*(\*) Luego de correr las pruebas, verifica el **Reporte de Resumen de las Pruebas** en la carpeta `/mutants/build/reports/tests/test` para m&aacute;s informaci&oacute;n.* 
+
+#
 Copyright &copy;2019 florenciadiaz. Licenciado bajo la _MIT License_, para m&aacute;s detalles ver `LICENSE.txt`.

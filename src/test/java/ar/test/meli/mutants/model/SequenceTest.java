@@ -8,81 +8,105 @@ import static org.junit.jupiter.api.Assertions.*;
 class SequenceTest {
 
     @Test
-    void toTable_givenValidDNA_mustNotBeNull() throws InvalidSequenceException {
+    void hasMutantDNA_givenMutantDNA_mustBeTrue() throws InvalidSequenceException {
         String[] dna6x6 = {"ATGCGA","CAGTGC","TTATGT","AGAAGG","CCCCTA","TCACTG"};
-        Sequence sequence = new Sequence(dna6x6);
+        Sequence sequence = Sequence.of(dna6x6, 4);
 
-        NitrogenousBase table = sequence.toTable();
+//        "A T G C G A"
+//        "C A G T G C"
+//        "T T A T G T"
+//        "A G A A G G"
+//        "C C C C T A"
+//        "T C A C T G"
 
-        assertNotNull(table);
+        boolean actual = sequence.hasMutantDNA();
+
+        assertTrue(actual);
     }
 
     @Test
-    void toTable_givenLessRowsThanColumns_mustThrowException()  {
+    void hasMutantDNA_givenHumanDNA_mustBeFalse() throws InvalidSequenceException {
+        String[] dna6x6 = {"ATGCAA","CAGTGC","TTCTGT","AGAAGG","CGCCTA","TCACTG"};
+        Sequence sequence = Sequence.of(dna6x6, 4);
+
+//        "A T G C A A"
+//        "C A G T G C"
+//        "T T C T G T"
+//        "A G A A G G"
+//        "C G C C T A"
+//        "T C A C T G"
+
+        boolean actual = sequence.hasMutantDNA();
+
+        assertFalse(actual);
+    }
+
+    @Test
+    void hasMutantDNA_givenLessRowsThanColumns_mustThrowException() throws InvalidSequenceException {
         String[] dna5x6 = {"ATGCGA","CAGTGC","TTATGT","AGAAGG","CCCCTA"};
-        Sequence sequence = new Sequence(dna5x6);
+        Sequence sequence = Sequence.of(dna5x6, 4);
 
-        Throwable exception = assertThrows(InvalidSequenceException.class, sequence::toTable);
+        Throwable exception = assertThrows(InvalidSequenceException.class, sequence::hasMutantDNA);
 
         assertEquals("DNA sequence must have same amount of rows and columns", exception.getMessage());
     }
 
     @Test
-    void toTable_givenLessColumnsThanRows_mustThrowException()  {
+    void hasMutantDNA_givenLessColumnsThanRows_mustThrowException() throws InvalidSequenceException {
         String[] dna6x5 = {"ATGCG","CAGTG","TTATG","AGAAG","CCCCT","TCACT"};
-        Sequence sequence = new Sequence(dna6x5);
+        Sequence sequence = Sequence.of(dna6x5, 4);
 
-        Throwable exception = assertThrows(InvalidSequenceException.class, sequence::toTable);
+        Throwable exception = assertThrows(InvalidSequenceException.class, sequence::hasMutantDNA);
 
         assertEquals("DNA sequence must have same amount of rows and columns", exception.getMessage());
     }
 
     @Test
-    void toTable_givenMissingColumn_mustThrowException()  {
+    void hasMutantDNA_givenMissingColumn_mustThrowException() throws InvalidSequenceException {
         String[] dnaMissingColumnAtRow2 = {"ATGCGA","CAGTGC","TTATG","AGAAGG","CCCCTA","TCACTG"};
-        Sequence sequence = new Sequence(dnaMissingColumnAtRow2);
+        Sequence sequence = Sequence.of(dnaMissingColumnAtRow2, 4);
 
-        Throwable exception = assertThrows(InvalidSequenceException.class, sequence::toTable);
+        Throwable exception = assertThrows(InvalidSequenceException.class, sequence::hasMutantDNA);
 
         assertEquals("DNA sequence must have same amount of rows and columns", exception.getMessage());
     }
 
     @Test
-    void toTable_givenExtraColumn_mustThrowException()  {
+    void hasMutantDNA_givenExtraColumn_mustThrowException() throws InvalidSequenceException {
         String[] dnaExtraColumnAtRow2 = {"ATGCGA","CAGTGC","TTATGTT","AGAAGG","CCCCTA","TCACTG"};
-        Sequence sequence = new Sequence(dnaExtraColumnAtRow2);
+        Sequence sequence = Sequence.of(dnaExtraColumnAtRow2, 4);
 
-        Throwable exception = assertThrows(InvalidSequenceException.class, sequence::toTable);
+        Throwable exception = assertThrows(InvalidSequenceException.class, sequence::hasMutantDNA);
 
         assertEquals("DNA sequence must have same amount of rows and columns", exception.getMessage());
     }
 
     @Test
-    void toTable_givenInvalidNitrogenousBase_mustThrowException() {
+    void hasMutantDNA_givenInvalidNitrogenousBase_mustThrowException() throws InvalidSequenceException {
         String[] dnaWithXAtRow2 = {"ATGCGA","CAGTGC","TTXTGT","AGAAGG","CCCCTA","TCACTG"};
-        Sequence sequence = new Sequence(dnaWithXAtRow2);
+        Sequence sequence = Sequence.of(dnaWithXAtRow2, 4);
 
-        Throwable exception = assertThrows(InvalidSequenceException.class, sequence::toTable);
+        Throwable exception = assertThrows(InvalidSequenceException.class, sequence::hasMutantDNA);
 
         assertEquals("DNA sequence must contain only valid nitrogenous bases", exception.getMessage());
     }
 
     @Test
-    void toTable_givenInvalidCharacterAtNitrogenousBase_mustThrowException() {
+    void hasMutant_givenInvalidCharacterAtNitrogenousBase_mustThrowException() throws InvalidSequenceException {
         String[] dnaWithInvalidCharAtRow2 = {"ATGCGA","CAGTGC","TT,TGT","AGAAGG","CCCCTA","TCACTG"};
-        Sequence sequence = new Sequence(dnaWithInvalidCharAtRow2);
+        Sequence sequence = Sequence.of(dnaWithInvalidCharAtRow2, 4);
 
-        Throwable exception = assertThrows(InvalidSequenceException.class, sequence::toTable);
+        Throwable exception = assertThrows(InvalidSequenceException.class, sequence::hasMutantDNA);
 
         assertEquals("DNA sequence must contain only valid nitrogenous bases", exception.getMessage());
     }
 
     @Test
-    void toTable_givenNumberAtNitrogenousBase_mustThrowException() {
+    void hasMutant_givenNumberAtNitrogenousBase_mustThrowException() throws InvalidSequenceException {
         String[] dnaWithNumberAtRow2 = {"ATGCGA","CAGTGC","TT8TGT","AGAAGG","CCCCTA","TCACTG"};
-        Sequence sequence = new Sequence(dnaWithNumberAtRow2);
+        Sequence sequence = Sequence.of(dnaWithNumberAtRow2, 4);
 
-        Throwable exception = assertThrows(InvalidSequenceException.class, sequence::toTable);
+        Throwable exception = assertThrows(InvalidSequenceException.class, sequence::hasMutantDNA);
 
         assertEquals("DNA sequence must contain only valid nitrogenous bases", exception.getMessage());
     }
