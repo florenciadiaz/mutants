@@ -40,7 +40,7 @@ Este proyecto contiene algunos archivos _JSON_ con [muestras de secuencias de AD
 Dado que se trata de una aplicación de prueba, la [demo en vivo](https://meli-mutants-test.herokuapp.com) sólo procesa secuencias de ADN de 51x51 como máximo.
 
 Si necesitas secuencias m&aacute; grandes (de hasta 180x180), puedes descargar el c&oacute;digo fuente e instalarlo localmente o en un servidor con soporte para bases de datos H2, 
-cambiando la clave ```app.detection.max-nb-sequence-length=32767``` en el archivo `application-[env].properties`, donde _[env]_ corresponde al ambiente que utilices.
+cambiando la clave ```app.detection.max-nb-sequence-length=180``` en el archivo `application-[env].properties`, donde _[env]_ corresponde al ambiente que utilices.
 
 
 

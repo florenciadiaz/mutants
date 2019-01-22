@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 @Service
 @Transactional
@@ -22,10 +21,10 @@ public class MutantDetectionService {
         this.verifiedSequences = verifiedSequences;
     }
 
-    public boolean verify(String[] dna, int minNBRepetitionToVerifyMutant, int maxNbSequenceLength)
+    public boolean verify(String[] dna, int minNBRepetitionToVerifyMutant, int maxNBSequenceLength)
             throws InvalidSequenceException {
         String sequence = String.join(",", dna);
-        validateInputSequence(sequence, maxNbSequenceLength);
+        validateInputSequence(sequence, maxNBSequenceLength);
 
         Detector detector = new Detector(minNBRepetitionToVerifyMutant);
         boolean isMutant = detector.isMutant(dna);
@@ -34,18 +33,16 @@ public class MutantDetectionService {
         return isMutant;
     }
 
-    private void validateInputSequence(String sequence, int maxNbSequenceLength) throws InvalidSequenceException {
-        if (sequence.length() > maxNbSequenceLength) {
+    private void validateInputSequence(String sequence, int maxNBSequenceLength) throws InvalidSequenceException {
+        int maxNbSequenceSize  = calculateMaxNBPerRow(maxNBSequenceLength);
+        if (sequence.length() > maxNbSequenceSize) {
             throw new InvalidSequenceException(String.format("DNA sequence must have a maximum of %d " +
-                    "nitrogenous bases per row", calculateMaxNBPerRow(maxNbSequenceLength)));
+                    "nitrogenous bases per row", maxNBSequenceLength));
         }
     }
 
     private int calculateMaxNBPerRow(int maxNbSequenceLength) {
-        BigDecimal rowLength = BigDecimal.valueOf(Math.sqrt(maxNbSequenceLength));
-        BigDecimal value = BigDecimal.valueOf(rowLength.intValue());
-        int maxValue = value.pow(2).add(value.subtract(BigDecimal.valueOf(1))).intValue();
-        return value.subtract(BigDecimal.valueOf((maxValue > maxNbSequenceLength) ? 1 : 0)).intValue();
+        return BigDecimal.valueOf((Math.pow(maxNbSequenceLength, 2) + maxNbSequenceLength)).intValue();
     }
 
     private void persistVerifiedSequence(String sequence, boolean isMutant) {

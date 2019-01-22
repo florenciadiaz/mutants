@@ -1,15 +1,21 @@
 package ar.test.meli.mutants.model;
 
-import java.util.*;
-import java.util.function.Consumer;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 enum NitrogenousBaseType {
-    A, T, C, G
+    A, T, C, G;
+
+    public static NitrogenousBaseType of(char value) {
+        return valueOf(String.valueOf(value));
+    }
 }
 
-class NitrogenousBase implements Iterable<List<NitrogenousBaseType>> {
+class NitrogenousBase {
 
-    private final List<List<NitrogenousBaseType>> table;
+    private final List<NitrogenousBaseType> row;
+    private boolean isMutant;
 
     private static final String allNitrogenousBases = Arrays.stream(NitrogenousBaseType.values())
             .map(Enum::name)
@@ -18,68 +24,40 @@ class NitrogenousBase implements Iterable<List<NitrogenousBaseType>> {
 
     private static final String validNitrogenousBasesRegex = String.format("[%s]+", allNitrogenousBases);
 
-    NitrogenousBase(int size) {
-        this.table = new ArrayList<>(size);
-    }
-
-    private static NitrogenousBase getMutantKeySequences(int minNBRepetitionToVerifyMutant) {
-        NitrogenousBaseType[] values = NitrogenousBaseType.values();
-        NitrogenousBase mutantKeySequences = new NitrogenousBase(values.length);
-
-        for (NitrogenousBaseType nitrogenousBaseType : values) {
-            List<NitrogenousBaseType> mutantKeySequence = new ArrayList<>(minNBRepetitionToVerifyMutant);
-            for (int j = 0; j < minNBRepetitionToVerifyMutant; j++) {
-                mutantKeySequence.add(nitrogenousBaseType);
-            }
-            mutantKeySequences.add(mutantKeySequence);
-        }
-        return mutantKeySequences;
+    private NitrogenousBase(int size) {
+        this.row = new ArrayList<>(size);
     }
 
     public static boolean isValid(String sample) {
         return sample.matches(validNitrogenousBasesRegex);
     }
 
-    public void add(List<NitrogenousBaseType> mutantKeySequence) {
-        this.table.add(mutantKeySequence);
-    }
-
-    public int size() {
-        return this.table.size();
-    }
-
-    public List<NitrogenousBaseType> get(int index) {
-        return this.table.get(index);
-    }
-
-    @Override
-    public Iterator<List<NitrogenousBaseType>> iterator() {
-        return this.table.iterator();
-    }
-
-    @Override
-    public void forEach(Consumer<? super List<NitrogenousBaseType>> action) {
-        this.table.forEach(action);
-    }
-
-    @Override
-    public Spliterator<List<NitrogenousBaseType>> spliterator() {
-        return this.table.spliterator();
-    }
-
-    public boolean isMutant(int minNBRepetitionToVerifyMutant) {
-        NitrogenousBase mutantKeySequences = getMutantKeySequences(minNBRepetitionToVerifyMutant);
-        for (List<NitrogenousBaseType> row : this.table) {
-            for (List<NitrogenousBaseType> mutantKeySequence : mutantKeySequences) {
-                if (contains(row, mutantKeySequence)) {
-                    return true;
+    public static NitrogenousBase of(String row, int columnCount, int minNBRepetitionToVerifyMutant) {
+        NitrogenousBase nitrogenousBase = new NitrogenousBase(columnCount);
+        int repetitionCount = 1;
+        for (int i = 0; i < columnCount; i++) {
+            NitrogenousBaseType actualValue = NitrogenousBaseType.of(row.charAt(i));
+            if (i + 1 < columnCount) {
+                NitrogenousBaseType nextValue = NitrogenousBaseType.of(row.charAt(i + 1));
+                repetitionCount = (actualValue == nextValue) ? (repetitionCount + 1) : 1;
+                if (repetitionCount == minNBRepetitionToVerifyMutant) {
+                    nitrogenousBase.isMutant = true;
                 }
             }
+            nitrogenousBase.add(actualValue);
         }
-        return false;
+        return nitrogenousBase;
     }
 
-    private boolean contains(List<NitrogenousBaseType> sample, List<NitrogenousBaseType> valuesToFind) {
-        return Collections.indexOfSubList(sample, valuesToFind) >= 0;
+    public boolean isMutant() {
+        return this.isMutant;
+    }
+
+    public NitrogenousBaseType get(int index) {
+        return this.row.get(index);
+    }
+
+    private void add(NitrogenousBaseType value) {
+        this.row.add(value);
     }
 }

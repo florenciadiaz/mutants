@@ -10,8 +10,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.Arrays;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -78,10 +76,10 @@ class MutantDetectionServiceTest {
     }
 
     @Test
-    void verify_givenDNAExcedingMaxAcceptedLength_mustThrowException() throws InvalidSequenceException {
+    void verify_givenDNAExcedingMaxAcceptedLength_mustThrowException() {
         String[] mutantDna = {"ATGCGA","CAGTGC","TTCTGT","AGAATG","CCCCTA","TCACTG"};
         MutantDetectionService service = new MutantDetectionService(this.verifiedSequences);
-        int maxNbSequenceLength = 40;
+        int maxNbSequenceLength = 5;
 
         Throwable exception = assertThrows(InvalidSequenceException.class, () ->
                 service.verify(mutantDna, 4, maxNbSequenceLength));
